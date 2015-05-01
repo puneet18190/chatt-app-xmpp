@@ -1,0 +1,17 @@
+<div class="container">
+    <%= form_for :data, :method => 'get', :url => "/chat" do |f| %>
+        <div class="field">
+            <%= f.label :User1 %>
+            <%= f.text_field :user1 %>
+        </div>
+        <div class="field">
+            <%= f.label :Password %>
+            <%= f.text_field :password %>
+        </div>
+        <div class="field">
+          <%= f.label :User2 %>
+          <%= f.text_field :user2 %>
+        </div>
+        <%= f.submit "Connect", class: "btn btn-primary" %>
+    <% end %>
+</div>    

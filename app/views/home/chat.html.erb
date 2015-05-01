@@ -1,17 +1,17 @@
 <div class="container">
-	<% if session.has_key?('user1') && session.has_key?('user2') %>
-		<%= "#{session[:user1]} connected with #{session[:user2]}" %>
-	<% end %>
-
+	<%# if session.has_key?('user1') && session.has_key?('user2') %>
+		<%#= "#{session[:user1]} connected with #{session[:user2]}" %>
+	<%# end %>
+	<h3>Chat with <%= @other_user.chat_name %></h3>
 	<br/><br/>
 
 	<div id="message_area" style="width:219px;height:200px;border:1px solid;word-wrap: break-word;"></div>
 
 	<textarea id="message" rows="3" cols="35"></textarea>
 	<a href="#" id="mybtn" class="btn btn-primary btn-lg active" role="button">Send</a>
-	<input type="hidden" id="user_1" value="<%= session[:user1]%>" />
-	<input type="hidden" id="user_2" value="<%= session[:user2]%>" />
-	<input type="hidden" id="password" value="<%= session[:password]%>" />
+	<input type="hidden" id="user_1" value="<%= current_user.chat_name %>" />
+	<input type="hidden" id="user_2" value="<%= @other_user.chat_name %>" />
+	<input type="hidden" id="password" value="<%= current_user.password %>" />
 
 
 	<br/><br/>
@@ -31,7 +31,7 @@
 	    	var password = $('#password').val()
 	        $.ajax({
 	            type: 'post',
-	            url: 'send_message',
+	            url: '/send_message',
 	            data: 'message='+message+'&user_1='+user_1+'&user_2='+user_2+'&password='+password,
 	            success: function (response) {
 	            	$("#message").val("")

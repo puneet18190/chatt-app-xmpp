@@ -8,7 +8,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+	<div class="navbar">
+	  <div class="navbar-inner">
+		  <a class="brand" href="/">Home</a>
+		  <% if user_signed_in? %>
+		  	<!-- <a class="brand" href="/user_chat">Start Chat</a> -->
+			<ul class="nav" style="float:right">
+		    	<li><a>Signed in as <%= current_user.email %>. Not you? </a></li>
+		    	<li><a style="margin-top:-20px"><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></a></li>
+			</ul>
+			<% end %>	
+	  </div>
+	</div>
+	
 <%= yield %>
 
 </body>

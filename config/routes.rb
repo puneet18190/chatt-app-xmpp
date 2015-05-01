@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #devise_for :users
   #get 'home/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -6,8 +7,10 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
    root 'home#index'
-   match '/chat',   to: 'home#chat',   via: 'get'
+   match '/chat/:id',   to: 'home#chat',   via: 'get'
    match '/send_message',   to: 'home#send_message',   via: 'post'
+   match '/user_chat',   to: 'home#user_chat',   via: 'get'
+   devise_for :users, :controllers => { registrations: 'registrations' }
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
