@@ -53,7 +53,7 @@ com.jive.sparkweb.control={
                 data: 'name='+name+'&email='+email+'&confirmpassword='+confirmpassword+'&password='+password,
                 success: function (response) {
                     if (response.status == "true"){
-                        window.location.href = "/sparkweb/index.html"
+                        window.location.href = "/chat/index.html"
                         // $("#loginname").val(name)
                         // $("#loginpassword").val(password)
                         // $("#login").trigger("click")
@@ -4047,31 +4047,31 @@ org.jive.spank.control.ContactMonitor.prototype = {
         enableEmoticons();
         enableAutolinking();
 
-        rosterWindow.addControl("addcontact", {
-            events: {
-                click: rosterWindow.showAddContact.createDelegate(rosterWindow, [rosterWindow])
-            },
-            identifier:'button-addcontact',
-            tooltip: 'Add Contact'
-        });
+        // rosterWindow.addControl("addcontact", {
+        //     events: {
+        //         click: rosterWindow.showAddContact.createDelegate(rosterWindow, [rosterWindow])
+        //     },
+        //     identifier:'button-addcontact',
+        //     tooltip: 'Add Contact'
+        // });
 
-        window.mucControl = rosterWindow.addControl("muc", {
-            events: {
-                click: mucController.handleMUCChooser.createDelegate(mucController)
-            },
-            identifier: 'button-groupchat',
-            tooltip: 'Conferences'
-        });
-        window.mucControl.enable();
+        // window.mucControl = rosterWindow.addControl("muc", {
+        //     events: {
+        //         click: mucController.handleMUCChooser.createDelegate(mucController)
+        //     },
+        //     identifier: 'button-groupchat',
+        //     tooltip: 'Conferences'
+        // });
+        // window.mucControl.enable();
 
-        rosterWindow.addControl("startchat", {
-            events: {
-                click: jive.spank.dialog.StartChat.createDelegate(this, [doOpenContact])
+        // rosterWindow.addControl("startchat", {
+        //     events: {
+        //         click: jive.spank.dialog.StartChat.createDelegate(this, [doOpenContact])
                 
-            },
-            identifier: 'button-startchat',
-            tooltip: 'Start Chat'
-        });
+        //     },
+        //     identifier: 'button-startchat',
+        //     tooltip: 'Start Chat'
+        // });
 
         rosterWindow.addListener('changestatus', function(window, mode, status) {
             var presence = new XMPP.Presence();
