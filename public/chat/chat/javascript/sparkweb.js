@@ -1701,7 +1701,7 @@ YAHOO.extend(jive.spank.roster.RosterWindow, jive.spank.Window, {
             userMode = (user.status ? user.status : user.mode);
         }
         this.dialog.setTitle("<h1>My Contacts</h1>");
-        // this._prepUserStatusPanel(userName, userMode);
+        this._prepUserStatusPanel(userName, userMode);
     },
 
     addGroup: function(groupName, groupObj) {
@@ -3692,7 +3692,7 @@ jive.spank.chat.Template = {
             '<p class="avatar"><img id="{bodyId}-avatar" src="chat/images/sparkweb-avatar.png" height="48" alt="" /></p>' +
             '<h4>{username}</h4>' +
             '<p id="{bodyId}-status" class="jive-mystatus">' +
-            '<a href="#" id="{bodyId}-statusmenu-ctrl" class="roster-contact-{statusName}"><span>{status}</span></a></p>' +
+            '<a href="#" id="{bodyId}-statusmenu-ctrl" class="roster-contact-{statusName}"></a></p>' +
             '</div>'
             ),
     sub_request: new YAHOO.ext.DomHelper.Template([
