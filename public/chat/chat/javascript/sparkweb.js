@@ -1701,7 +1701,7 @@ YAHOO.extend(jive.spank.roster.RosterWindow, jive.spank.Window, {
             userMode = (user.status ? user.status : user.mode);
         }
         this.dialog.setTitle("<h1>My Contacts</h1>");
-        this._prepUserStatusPanel(userName, userMode);
+        // this._prepUserStatusPanel(userName, userMode);
     },
 
     addGroup: function(groupName, groupObj) {
@@ -4064,14 +4064,14 @@ org.jive.spank.control.ContactMonitor.prototype = {
         // });
         // window.mucControl.enable();
 
-        // rosterWindow.addControl("startchat", {
-        //     events: {
-        //         click: jive.spank.dialog.StartChat.createDelegate(this, [doOpenContact])
+        rosterWindow.addControl("startchat", {
+            events: {
+                click: jive.spank.dialog.StartChat.createDelegate(this, [doOpenContact])
                 
-        //     },
-        //     identifier: 'button-startchat',
-        //     tooltip: 'Start Chat'
-        // });
+            },
+            identifier: 'button-startchat',
+            tooltip: 'Start Chat'
+        });
 
         rosterWindow.addListener('changestatus', function(window, mode, status) {
             var presence = new XMPP.Presence();
