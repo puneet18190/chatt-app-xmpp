@@ -254,12 +254,15 @@ XMPPConnection.prototype = {
 	var packet;
 
 	if (packetType == "iq") {
+        console.log("Packet type iq")
 		packet = new XMPP.IQ(null, null, null, packetElement);
 	}
 	else if (packetType == "presence") {
+        console.log("Packet type presence")
 		packet = new XMPP.Presence(null, null, packetElement);
 	}
 	else if (packetType == "message") {
+        console.log("Packet type message")
 		packet = new XMPP.Message(null, null, null, packetElement);
 	}
 	else {
@@ -355,7 +358,7 @@ XMPP.WS.prototype = {
 
     connect: function(successfulConnectionCallback) 
     {
-    	//console.log("XMPP.WS - connect");
+    	console.log("XMPP.WS - connect");
     	
         this._isConnected = false;
 	this._clearListeners();
@@ -371,14 +374,14 @@ XMPP.WS.prototype = {
 
     login: function(username, password, resource) 
     {
-    	//console.log("XMPP.WS - login " + username);
+    	console.log("XMPP.WS - login " + username);
     	
         this.username = username;
         this.password = password;        
         this.resource = (!resource ? "spank" : resource);
         this.protocol = window.location.protocol == "http:" ? "ws:" : "wss:"
         
-	this._ws = new WebSocket(this.protocol + "//" + window.location.host + ":7070" + "/ws/server?username=" + username + "&password=" + password + "&resource=" + resource, "xmpp");        
+	this._ws = new WebSocket(this.protocol + "//" + "178.79.176.119" + ":7070" + "/ws/server?username=" + username + "&password=" + password + "&resource=" + resource, "xmpp");        
 	this._ws.onopen = this._onopen.bind(this);
 	this._ws.onmessage = this._onmessage.bind(this);
 	this._ws.onclose = this._onclose.bind(this);
@@ -388,7 +391,7 @@ XMPP.WS.prototype = {
 
     disconnect: function(xml, successfulDisconnectionCallback, unsuccessfulDisconnectionCallback) 
     {
-    	//console.log("XMPP.WS - disconnect");
+    	console.log("XMPP.WS - disconnect");
     
         if(!this.isConnected() || this._ws == null) {
             return;
@@ -421,7 +424,7 @@ XMPP.WS.prototype = {
     _onopen: function() 
     {
 
-    	//console.log("XMPP.WS - _onopen");
+    	console.log("XMPP.WS - _onopen");
     	
     	this._isConnected = true;    
     	this._fireEvent("success");
@@ -433,7 +436,7 @@ XMPP.WS.prototype = {
     _onclose: function() 
     {
 
-   	//console.log("XMPP.WS - _onclose");
+   	console.log("XMPP.WS - _onclose");
     	
     	clearInterval(this.interval);
     	
@@ -444,7 +447,7 @@ XMPP.WS.prototype = {
     
     _onmessage: function(packet) {
     
-   	//console.log("XMPP.WS - _onmessage " + packet.data);
+   	console.log("XMPP.WS - _onmessage " + packet.data);
 
 	this._fireEvent("success", this._textToXML(packet.data));
     },
@@ -452,7 +455,7 @@ XMPP.WS.prototype = {
     send: function(xml) 
     {
 
-   	//console.log("XMPP.WS - send " + xml);
+   	console.log("XMPP.WS - send " + xml);
     
         if(!this.isConnected()) {
             throw Error("Not connected, cannot send packets.");
@@ -467,7 +470,7 @@ XMPP.WS.prototype = {
     _textToXML: function (text) 
     {
     
-    	//console.log(text);
+    	console.log(text);
     	
         var doc = null;
         
@@ -532,7 +535,7 @@ XMPP.WS.prototype = {
     
     addListener: function(event, eventHandler) 
     {
-    	//console.log("XMPP.WS - addListener");
+    	console.log("XMPP.WS - addListener");
 
         this.listeners[event].push(eventHandler);
     },
@@ -546,7 +549,7 @@ XMPP.WS.prototype = {
     
     _fireEvent: function(event) 
     {
-    	//console.log("XMPP.WS - _fireEvent");
+    	console.log("XMPP.WS - _fireEvent");
     
         if(!this.listeners[event]) {
             return;

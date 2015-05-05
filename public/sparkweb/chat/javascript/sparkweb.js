@@ -1,12 +1,147 @@
-var com={};com.jive={};com.jive.sparkweb={};com.jive.sparkweb.control={buttons:{login:"login",createAccount:"create-account"},fields:{username:"name",loginusername:"loginname",loginpassword:"loginpassword"},init:function(){var userNameField=com.jive.sparkweb.control.fields["loginusername"];var passwordField=com.jive.sparkweb.control.fields["loginpassword"];var loginButton=getEl(com.jive.sparkweb.control.buttons.login);var loginAction=Event.stop.bind();loginAction=loginAction.createSequence(function(usernameField,passwordField){getEl(usernameField).blur();getEl(passwordField).blur();}.bind(null,userNameField,passwordField));loginAction=loginAction.createSequence(org.jive.spank.control.doConnect.createCallback($F.createCallback(userNameField),$F.createCallback(passwordField),window.location.hostname, com.jive.sparkweb.control.actions));loginButton.addListener("click",loginAction);var createAccountButton=getEl(com.jive.sparkweb.control.buttons.createAccount);if(createAccountButton)
-createAccountButton.addListener("click",com.jive.sparkweb.control.createAccount);var accountForm=getEl("jive_sw_account-creation-form");accountForm.setDisplayed(false);getEl("jive_sw_userbar-container").setVisible(false);getEl(userNameField).dom.focus();},createAccount:function(e){var createAccountButton=getEl("btn-create-account");var loginForm=getEl("jive_sw_login-form");var accountForm=getEl("jive_sw_account-creation-form");if(loginForm.isDisplayed()){createAccountButton.replaceClass("btn-create-account","btn-create-account-depressed");loginForm.setDisplayed(false);accountForm.setDisplayed(true);getEl(com.jive.sparkweb.control.fields.username).focus();}
-else{createAccountButton.replaceClass("btn-create-account-depressed","btn-create-account");accountForm.setDisplayed(false);loginForm.setDisplayed(true);getEl(com.jive.sparkweb.control.fields.loginusername).focus();}
-Event.stop(e);}}
+// var com={};com.jive={};com.jive.sparkweb={};com.jive.sparkweb.control={buttons:{login:"login",createAccount:"create-account"},fields:{username:"name",loginusername:"loginname",loginpassword:"loginpassword"},init:function(){var userNameField=com.jive.sparkweb.control.fields["loginusername"];var passwordField=com.jive.sparkweb.control.fields["loginpassword"];var loginButton=getEl(com.jive.sparkweb.control.buttons.login);var loginAction=Event.stop.bind();loginAction=loginAction.createSequence(function(usernameField,passwordField){getEl(usernameField).blur();getEl(passwordField).blur();}.bind(null,userNameField,passwordField));loginAction=loginAction.createSequence(org.jive.spank.control.doConnect.createCallback($F.createCallback(userNameField),$F.createCallback(passwordField),window.location.hostname, com.jive.sparkweb.control.actions));loginButton.addListener("click",loginAction);var createAccountButton=getEl(com.jive.sparkweb.control.buttons.createAccount);if(createAccountButton)
+// createAccountButton.addListener("click",com.jive.sparkweb.control.createAccount);var accountForm=getEl("jive_sw_account-creation-form");accountForm.setDisplayed(false);getEl("jive_sw_userbar-container").setVisible(false);getEl(userNameField).dom.focus();},createAccount:function(e){var createAccountButton=getEl("btn-create-account");var loginForm=getEl("jive_sw_login-form");var accountForm=getEl("jive_sw_account-creation-form");if(loginForm.isDisplayed()){createAccountButton.replaceClass("btn-create-account","btn-create-account-depressed");loginForm.setDisplayed(false);accountForm.setDisplayed(true);getEl(com.jive.sparkweb.control.fields.username).focus();}
+// else{createAccountButton.replaceClass("btn-create-account-depressed","btn-create-account");accountForm.setDisplayed(false);loginForm.setDisplayed(true);getEl(com.jive.sparkweb.control.fields.loginusername).focus();}
+// Event.stop(e);}}
 
-com.jive.sparkweb.control.actions={onConnecting:function(){var loginErrorEl=getEl("login-error");if(loginErrorEl){loginErrorEl.remove();}
-getEl("loginname-label").removeClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginusername"]).removeClass("error");getEl("password-label").removeClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginpassword"]).removeClass("error");getEl("jive_sw_login").addClass("jive-login-hidden");var loginError=getEl("login-error");if(loginError){loginError.remove();}
-$(com.jive.sparkweb.control.fields["loginpassword"]).value="";document.getElementById("login-version").style.visibility="hidden";var loader=$("jive_loader")
-loader.style.visibility="visible";loader.style.display="block";},onConnected:function(){getEl("jive_sw_login-container").setVisible(false);$("jive_loader").style.display="none";getEl("jive_sw_userbar-container").setVisible(true,true);},onDisconnected:function(){getEl("jive_sw_login-container").setVisible(true,true,1);$("jive_loader").style.display="none";getEl("jive_sw_login").removeClass("jive-login-hidden");getEl("jive_sw_userbar-container").setVisible(false,true);},onFailedAuthentication:function(){var template=new YAHOO.ext.DomHelper.Template(com.jive.sparkweb.control.templates.authentication_failed.join(''));template.append("jive_sw_login-form",{});getEl("loginname-label").addClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginusername"]).addClass("error");getEl("password-label").addClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginpassword"]).addClass("error");com.jive.sparkweb.control.actions.onDisconnected();},onError:function(){com.jive.sparkweb.control.actions.onDisconnected();}};YAHOO.ext.EventManager.addListener(window,"load",com.jive.sparkweb.control.init);com.jive.sparkweb.control.templates={create_passwords_dont_match:['<p id="create-error" class="error">',"I'm sorry but your <span class=\"jive_red\"><strong>password's</strong></span>"," did not match. Please re-enter your password and try again.</p>"],authentication_failed:['<p id="login-error" class="error">',"Please enter a valid <span class='jive_red'>username</span> and ","<span class='jive_red'>password</span>.</p>"]}
+// com.jive.sparkweb.control.actions={onConnecting:function(){var loginErrorEl=getEl("login-error");if(loginErrorEl){loginErrorEl.remove();}
+// getEl("loginname-label").removeClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginusername"]).removeClass("error");getEl("password-label").removeClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginpassword"]).removeClass("error");getEl("jive_sw_login").addClass("jive-login-hidden");var loginError=getEl("login-error");if(loginError){loginError.remove();}
+// $(com.jive.sparkweb.control.fields["loginpassword"]).value="";document.getElementById("login-version").style.visibility="hidden";var loader=$("jive_loader")
+// loader.style.visibility="visible";loader.style.display="block";},onConnected:function(){getEl("jive_sw_login-container").setVisible(false);$("jive_loader").style.display="none";getEl("jive_sw_userbar-container").setVisible(true,true);},onDisconnected:function(){getEl("jive_sw_login-container").setVisible(true,true,1);$("jive_loader").style.display="none";getEl("jive_sw_login").removeClass("jive-login-hidden");getEl("jive_sw_userbar-container").setVisible(false,true);},onFailedAuthentication:function(){var template=new YAHOO.ext.DomHelper.Template(com.jive.sparkweb.control.templates.authentication_failed.join(''));template.append("jive_sw_login-form",{});getEl("loginname-label").addClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginusername"]).addClass("error");getEl("password-label").addClass("jive_red");getEl(com.jive.sparkweb.control.fields["loginpassword"]).addClass("error");com.jive.sparkweb.control.actions.onDisconnected();},onError:function(){com.jive.sparkweb.control.actions.onDisconnected();}};YAHOO.ext.EventManager.addListener(window,"load",com.jive.sparkweb.control.init);com.jive.sparkweb.control.templates={create_passwords_dont_match:['<p id="create-error" class="error">',"I'm sorry but your <span class=\"jive_red\"><strong>password's</strong></span>"," did not match. Please re-enter your password and try again.</p>"],authentication_failed:['<p id="login-error" class="error">',"Please enter a valid <span class='jive_red'>username</span> and ","<span class='jive_red'>password</span>.</p>"]}
+var com={};
+com.jive={};
+com.jive.sparkweb={};
+com.jive.sparkweb.control={
+    buttons:{
+        login:"login",createAccount:"create-account",signupAccount:"signup-account"
+    },
+    fields:{
+        username:"name",loginusername:"loginname",loginpassword:"loginpassword"
+    },
+    init:function(){
+        var userNameField=com.jive.sparkweb.control.fields["loginusername"];
+        var passwordField=com.jive.sparkweb.control.fields["loginpassword"];
+        var loginButton=getEl(com.jive.sparkweb.control.buttons.login);
+        var loginAction=Event.stop.bind();
+        loginAction=loginAction.createSequence(function(usernameField,passwordField){
+                            getEl(usernameField).blur();getEl(passwordField).blur();
+        }.bind(null,userNameField,passwordField));
+
+        loginAction=loginAction.createSequence(org.jive.spank.control.doConnect.createCallback($F.createCallback(userNameField),$F.createCallback(passwordField),window.location.hostname, com.jive.sparkweb.control.actions));
+        loginButton.addListener("click",loginAction);
+        var createAccountButton=getEl(com.jive.sparkweb.control.buttons.createAccount);
+        if(createAccountButton)
+            createAccountButton.addListener("click",com.jive.sparkweb.control.createAccount);
+            var accountForm=getEl("jive_sw_account-creation-form");
+            accountForm.setDisplayed(false);getEl("jive_sw_userbar-container").setVisible(false);
+            getEl(userNameField).dom.focus();
+
+        var signupAccountButton=getEl(com.jive.sparkweb.control.buttons.signupAccount);
+        if(signupAccountButton)
+            signupAccountButton.addListener("click",com.jive.sparkweb.control.signupAccount);
+            // var accountForm=getEl("jive_sw_account-creation-form");
+            // accountForm.setDisplayed(false);getEl("jive_sw_userbar-container").setVisible(false);
+            // getEl(userNameField).dom.focus();    
+    },
+    signupAccount:function(e){
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var confirmpassword = $('#confirmpassword').val();
+        var password = $('#password').val();
+        $.ajax({
+                type: 'get',
+                url: '/reg_user',
+                data: 'name='+name+'&email='+email+'&confirmpassword='+confirmpassword+'&password='+password,
+                success: function (response) {
+                    if (response.status == "true"){
+                        window.location.href = "/sparkweb/index.html"
+                        // $("#loginname").val(name)
+                        // $("#loginpassword").val(password)
+                        // $("#login").trigger("click")
+                    }  
+                }
+            })
+    },
+    createAccount:function(e){
+        var createAccountButton=getEl("btn-create-account");
+            var loginForm=getEl("jive_sw_login-form");
+            var accountForm=getEl("jive_sw_account-creation-form");
+            if(loginForm.isDisplayed()){
+                createAccountButton.replaceClass("btn-create-account","btn-create-account-depressed");
+                loginForm.setDisplayed(false);
+                accountForm.setDisplayed(true);
+                getEl(com.jive.sparkweb.control.fields.username).focus();
+            }
+
+        else{
+            createAccountButton.replaceClass("btn-create-account-depressed","btn-create-account");
+            accountForm.setDisplayed(false);
+            loginForm.setDisplayed(true);
+            getEl(com.jive.sparkweb.control.fields.loginusername).focus();
+        }
+        Event.stop(e);
+    }
+}
+
+com.jive.sparkweb.control.actions={
+
+    onConnecting:function(){
+        var loginErrorEl=getEl("login-error");
+
+        if(loginErrorEl){
+            loginErrorEl.remove();
+        }
+
+        getEl("loginname-label").removeClass("jive_red");
+        getEl(com.jive.sparkweb.control.fields["loginusername"]).removeClass("error");
+        getEl("password-label").removeClass("jive_red");
+        getEl(com.jive.sparkweb.control.fields["loginpassword"]).removeClass("error");
+        getEl("jive_sw_login").addClass("jive-login-hidden");
+
+        var loginError=getEl("login-error");
+
+        if(loginError){
+            loginError.remove();
+        }
+
+        $(com.jive.sparkweb.control.fields["loginpassword"]).value="";
+        document.getElementById("login-version").style.visibility="hidden";
+        var loader=$("jive_loader")
+        loader.style.visibility="visible";
+        loader.style.display="block";
+},
+
+    onConnected:function(){
+        getEl("jive_sw_login-container").setVisible(false);
+        $("jive_loader").style.display="none";
+        getEl("jive_sw_userbar-container").setVisible(true,true);
+    },
+
+    onDisconnected:function(){
+        getEl("jive_sw_login-container").setVisible(true,true,1);
+        $("jive_loader").style.display="none";
+        getEl("jive_sw_login").removeClass("jive-login-hidden");
+        getEl("jive_sw_userbar-container").setVisible(false,true);
+    },
+
+    onFailedAuthentication:function(){
+        var template=new YAHOO.ext.DomHelper.Template(com.jive.sparkweb.control.templates.authentication_failed.join(''));
+        template.append("jive_sw_login-form",{});
+        getEl("loginname-label").addClass("jive_red");
+        getEl(com.jive.sparkweb.control.fields["loginusername"]).addClass("error");
+        getEl("password-label").addClass("jive_red");
+        getEl(com.jive.sparkweb.control.fields["loginpassword"]).addClass("error");
+        com.jive.sparkweb.control.actions.onDisconnected();},
+
+    onError:function(){
+        com.jive.sparkweb.control.actions.onDisconnected();
+    }
+};
+
+YAHOO.ext.EventManager.addListener(window,"load",com.jive.sparkweb.control.init);
+com.jive.sparkweb.control.templates={
+    create_passwords_dont_match:['<p id="create-error" class="error">',"I'm sorry but your <span class=\"jive_red\"><strong>password's</strong></span>"," did not match. Please re-enter your password and try again.</p>"],authentication_failed:['<p id="login-error" class="error">',"Please enter a valid <span class='jive_red'>username</span> and ","<span class='jive_red'>password</span>.</p>"]
+}
+
 
 
 

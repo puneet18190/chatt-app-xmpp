@@ -3,7 +3,7 @@ require 'xmpp4r'
 include Jabber
 
 class HomeController < ApplicationController
-	before_action :authenticate_user!
+	#before_action :authenticate_user!
 
   def index
   	@users = User.all	
@@ -47,4 +47,11 @@ class HomeController < ApplicationController
 		render :json => {:status => false}
 	end	
   end
+
+  def reg_user
+      xmpp_client = XmppClient.new(params[:name])    
+      xmpp_client.register(params[:password], {"email"=>"#{params[:email]}", "name"=>"#{params[:name]}"})
+      xmpp_client.close
+      render :json => {:status => "true"}
+  end  
 end
