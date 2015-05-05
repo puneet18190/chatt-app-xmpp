@@ -66,11 +66,11 @@ div.dbody table {
 	overflow:hidden;
 	padding:5px;
 }
-.ydlg .ydlg-hd-left {
+/*.ydlg .ydlg-hd-left {
 	background: transparent url(../images/sparkweb-black/bg_titlebar.png) no-repeat scroll 0px 0px;
 	padding-left: 4px;
 	margin-left: 0px;
-	}
+	}*/
 .ydlg .ydlg-hd-right {
 	background: transparent url(../images/sparkweb-black/bg_titlebar.png) no-repeat scroll right -24px;
 	padding-right: 4px;
@@ -83,7 +83,7 @@ div.dbody table {
 }
 
 /* Icon for closing dialogues */	
-.ydlg .ydlg-close {
+/*.ydlg .ydlg-close {
 	background-image:url(../images/sparkweb-black/close-sprite.gif);
 	background-repeat:no-repeat;
 	cursor:pointer;
@@ -99,7 +99,7 @@ div.dbody table {
 	width:15px;
 	z-index:6;
 	}
-
+*/
 
 /* DIALOGUE HANDLES ------------------------------------------------------------------------------------------------ */
 .yresizable-over .yresizable-handle-east, .yresizable-pinned .yresizable-handle-east, .ydlg div.yresizable-handle-east {

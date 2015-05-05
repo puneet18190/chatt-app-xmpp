@@ -41,7 +41,7 @@ body.masked .ydlg select {
 .yresizable-proxy{
 	z-index:10002;
 }
-.ydlg .ydlg-hd {
+/*.ydlg .ydlg-hd {
 	background: url(../images/basic-dialog/hd-sprite.gif) repeat-x 0px -82px;
 	background-color:navy;
 	color:#FFF;
@@ -57,7 +57,7 @@ body.masked .ydlg select {
 .ydlg .ydlg-hd-right {
 	background: url(../images/basic-dialog/hd-sprite.gif) no-repeat right 0px;
 	padding-right:3px;
-}
+}*/
 .ydlg .ydlg-dlg-body{
 	background:url(../images/layout/gradient-bg.gif);
 	border:1px solid #6593cf;
@@ -152,7 +152,7 @@ body.masked .ydlg select {
 .ydlg-closable .ydlg-hd{
 	padding-right:22px;
 }
-.ydlg .ydlg-close {
+/*.ydlg .ydlg-close {
 	position:absolute;
 	top:4px;
 	right:4px;
@@ -167,7 +167,7 @@ body.masked .ydlg select {
 	cursor:pointer;
 	visibility:inherit;
 	background-image:url(../images/basic-dialog/close.gif);
-}
+}*/
 .ydlg div.yresizable-handle-east{
 	background-image:url(../images/basic-dialog/e-handle.gif);
 	border:0px;
@@ -205,7 +205,7 @@ body.masked .ydlg select {
 .ytheme-gray .ydlg-shadow{
 	background:#aaaaaa;
 }
-.ytheme-gray .ydlg-proxy .tabset{
+/*.ytheme-gray .ydlg-proxy .tabset{
     background:url(../images/layout/gray/gradient-bg.gif);
 }
 .ytheme-gray .ydlg .ydlg-hd {
@@ -217,7 +217,7 @@ body.masked .ydlg select {
 }
 .ytheme-gray .ydlg .ydlg-hd-right {
 	background: url(../images/basic-dialog/gray/hd-sprite.gif) no-repeat right 0px;
-}
+}*/
 .ytheme-gray .ydlg .ydlg-dlg-body{
 	background:#efefec;
 	border:1px solid #b3b6b0;
@@ -234,9 +234,9 @@ body.masked .ydlg select {
 .ytheme-gray .ydlg .ylayout-container  .yui-ext-tabbody{
 	border:0px none;
 }
-.ytheme-gray .ydlg .ydlg-close {
+/*.ytheme-gray .ydlg .ydlg-close {
 	background-image:url(../images/basic-dialog/gray/close.gif);
-}
+}*/
 .ytheme-gray .ydlg div.yresizable-handle-east{
 	background-image:url(../images/basic-dialog/gray/e-handle.gif);
 	border:0px none;
