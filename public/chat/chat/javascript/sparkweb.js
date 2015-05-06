@@ -44,19 +44,20 @@ com.jive.sparkweb.control={
     },
     signupAccount:function(e){
         var name = $('#name').val();
-        var email = $('#email').val();
-        var confirmpassword = $('#confirmpassword').val();
+        var user_id = $('#user_id').val();
         var password = $('#password').val();
+        var location = $('#location').val();
         $.ajax({
                 type: 'get',
                 url: '/reg_user',
-                data: 'name='+name+'&email='+email+'&confirmpassword='+confirmpassword+'&password='+password,
+                data: 'name='+name+'&user_id='+user_id+'&password='+password+'&location='+location,
                 success: function (response) {
+                    console.log(response)
                     if (response.status == "true"){
                         window.location.href = "/chat/index.html"
-                        // $("#loginname").val(name)
-                        // $("#loginpassword").val(password)
-                        // $("#login").trigger("click")
+                    }else{
+                        $("#signup_error_msg").css("display","block")
+                        // alert("User already Registered.")
                     }  
                 }
             })

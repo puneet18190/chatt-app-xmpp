@@ -22,13 +22,14 @@ class XmppClient
     @client.register(password,email)
   rescue Jabber::ServerError => e
     puts "[Registration Failure]" + e.message
-    if e.error_type == :modify
+    if e.error.type == :modify
       instruction, fields = @client.register_info
       fields.each do  |info|
           puts "* #{info}"      
       end
       puts "instructions = #{instructions}"
     end
+    return e.error.type
   end
   
   def self.login(jid, password = '1234', domain = 'li345-119/li345-119')

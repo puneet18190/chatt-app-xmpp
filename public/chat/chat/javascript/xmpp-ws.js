@@ -445,11 +445,16 @@ XMPP.WS.prototype = {
 
     _onclose: function() 
     {
+        document.getElementById("error_msg").style.display = "none"
         if (this.isConnected() == false){
-            var ask = window.confirm("Something went gone wrong...")
-            if (ask){
-                window.location.href = "/chat/index.html"
-            }
+            // var ask = window.confirm("Username or Password is incorrect.")
+            // if (ask){
+            //     window.location.href = "/chat/index.html"
+            // }else{
+            //     window.location.href = "/chat/index.html"
+            // }
+            window.location.href = "/chat/index.html"
+            localStorage.error = "true";
         }
    	    console.log("XMPP.WS - _onclose");
     	
@@ -457,7 +462,7 @@ XMPP.WS.prototype = {
     	
     	this._ws = null;
     	this._isConnected = false;    	
-	this._fireEvent("failure"); 
+	    this._fireEvent("failure"); 
     },
     
     _onmessage: function(packet) {
@@ -569,7 +574,7 @@ XMPP.WS.prototype = {
     
     _fireEvent: function(event) 
     {
-    	console.log("XMPP.WS - _fireEvent");
+    	console.log("XMPP.WS - _fireEvent" + event);
     
         if(!this.listeners[event]) {
             return;

@@ -49,9 +49,9 @@ class HomeController < ApplicationController
   end
 
   def reg_user
-      xmpp_client = XmppClient.new(params[:name])    
-      xmpp_client.register(params[:password], {"email"=>"#{params[:email]}", "name"=>"#{params[:name]}"})
+      xmpp_client = XmppClient.new(params[:user_id])
+      res = xmpp_client.register(params[:password], {"email"=>"#{params[:user_id]}@li345-119", "name"=>"#{params[:name]}"})
       xmpp_client.close
-      render :json => {:status => "true"}
+      render :json => {:status => (res == :cancel ? "false" : "true") }
   end  
 end

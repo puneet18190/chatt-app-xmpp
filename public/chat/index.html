@@ -80,6 +80,9 @@
                                                   type="submit"
                                                   value="Login" tabindex="3"/></p>
                 </form>
+                <p id="error_msg" style="display:none">I'm sorry but your <span
+                            class="jive_red"><strong>password's</strong></span> did not match.
+                        Please re-enter your password and try again.</p>
                 <form action="" id="jive_sw_account-creation-form" method="post"
                       style="display:none">
                     <p><label for="name" accesskey="2">Name:</label>
@@ -128,5 +131,11 @@
 		</div>
 	</div> -->
 	<!-- End of jive_sw_footer-container -->
+    <script>
+    if (localStorage.error == "true"){
+        localStorage.removeItem("error");
+        document.getElementById("error_msg").style.display = "block"
+    }
+    </script>
 </body>
 </html>
