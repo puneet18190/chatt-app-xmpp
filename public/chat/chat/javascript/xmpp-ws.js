@@ -198,6 +198,7 @@ XMPPConnection.prototype = {
         this.sendPacket(bindIQ, packetFilter);
     },
     _establishSession: function() {
+        console.log("_establishSession")
         var sessionIQ = new XMPP.IQ("set");
         sessionIQ.setXMLNS("jabber:client");
 
@@ -225,6 +226,7 @@ XMPPConnection.prototype = {
  * the filter will be removed upon its execution.
  */
     sendPacket: function(packet, packetFilter) {
+        console.log("sendPacket")
         if (!packet || !(typeof packet == "object" && packet instanceof XMPP.Packet)) {
             return;
         }
@@ -237,14 +239,17 @@ XMPPConnection.prototype = {
         this.connection.send(packet.toXML());
     },
     _handleFailure: function(request, header) {
+        console.log("_handleFailure")
         console.error("Request failure: " + header);
         this.destroy(header);
     },
     _handleException: function(request, error) {
+        console.log("_handleException")
         console.error("Request exception: " + error);
         this.destroy(error);
     },
     _handlePackets: function(element) {
+        console.log("_handlePackets")
 
         this._fireEvent("packetsReceived");
  
@@ -285,6 +290,7 @@ XMPPConnection.prototype = {
  * exectuted for the first time.
  */
     addPacketFilter: function(packetFilter, removeOnExecution) {
+        console.log("addPacketFilter")
         if (!packetFilter || !(packetFilter instanceof org.jive.spank.PacketFilter)) {
             throw Error("PacketFilter must be an instance of PacketFilter");
         }
@@ -297,6 +303,7 @@ XMPPConnection.prototype = {
  * @param {org.jive.spank.PacketFilter} packetFilter the packet filter which is being removed.
  */
     removePacketFilter: function(packetFilter) {
+        console.log("removePacketFilter")
         if (!packetFilter) {
             return;
         }
@@ -314,12 +321,14 @@ XMPPConnection.prototype = {
  * sent to the server.
  */
     addOutgoingPacketFilter: function(packetFilter) {
+        console.log("addOutgoingPacketFilter")
         if (!packetFilter || !(packetFilter instanceof org.jive.spank.PacketFilter)) {
             throw Error("PacketFilter must be an instance of PacketFilter");
         }
         this._outgoingPacketFilters.push(packetFilter);
     },
     _handlePacket: function(packetFilters, packet) {
+        console.log("_handlePacket")
         for (var i = packetFilters.length - 1; i >= 0; i--) {
             try {
                 if (packetFilters[i].accept(packet) && packetFilters[i].removeOnExecution) {
@@ -344,6 +353,7 @@ if(!XMPP) {
 
 XMPP.WS = function() 
 {
+    console.log("XMPP.WS")
 	if (!window.WebSocket) 
 	{
 		window.WebSocket=window.MozWebSocket;
@@ -416,7 +426,7 @@ XMPP.WS.prototype = {
 
     isConnected: function() 
     {
-        
+        console.log("isConnected")
         return this._isConnected;
     },
     
@@ -435,8 +445,13 @@ XMPP.WS.prototype = {
 
     _onclose: function() 
     {
-
-   	console.log("XMPP.WS - _onclose");
+        if (this.isConnected() == false){
+            var ask = window.confirm("Something went gone wrong...")
+            if (ask){
+                window.location.href = "/chat/index.html"
+            }
+        }
+   	    console.log("XMPP.WS - _onclose");
     	
     	clearInterval(this.interval);
     	
@@ -493,6 +508,7 @@ XMPP.WS.prototype = {
 
     _processConnectionResponse: function(callback) 
     {
+        console.log("_processConnectionResponse")
         this._clearListeners();
         
         if(callback) 
@@ -502,6 +518,7 @@ XMPP.WS.prototype = {
     },
     _processConnectionFailure: function(callback) 
     {
+        console.log("_processConnectionFailure")
         this._clearListeners();
 
         if(callback) 
@@ -511,6 +528,7 @@ XMPP.WS.prototype = {
     },
     _processDisconnectionResponse: function(callback) 
     {
+        console.log("_processDisconnectionResponse")
         this._clearListeners();
         
         if (callback) 
@@ -520,6 +538,7 @@ XMPP.WS.prototype = {
     },
     _processDisconnectionFailure: function(callback) 
     {
+        console.log("_processDisconnectionFailure")
         this._clearListeners();
         
         if (callback) 
@@ -530,7 +549,7 @@ XMPP.WS.prototype = {
 
     destroy: function() 
     {
-
+        console.log("destroy")
     },
     
     addListener: function(event, eventHandler) 
@@ -542,6 +561,7 @@ XMPP.WS.prototype = {
     
     _clearListeners: function() 
     {
+        console.log("_clearListeners")
         for(var event in this.listeners) {
             this.listeners[event] = [];
         }
