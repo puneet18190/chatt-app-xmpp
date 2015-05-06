@@ -56,10 +56,10 @@
 		</div>
         <!-- End of jive_sw_userbar-container -->
 
-        <div id="jive_sw_login-container">
+        <div id="jive_sw_login-container" style="padding-top:0">
             <div id="jive_sw_login-top-plain">
                 <p>&nbsp;</p>
-                <p class="btn-create-account"><a href="/chat/signup.html">Signup Account</a></p>
+               <!--  <p class="btn-create-account"><a href="/chat/signup.html">Signup Account</a></p> -->
                 <!-- <p id="btn-create-account" class="btn-create-account"><a id="create-account" href="#createAccount">Create Account</a></p> -->
             </div>
             <div id="jive_sw_login">
@@ -76,9 +76,11 @@
                     <p><label id="password-label"for="password">Password:</label>
                         <input type="password" id="loginpassword" name="password" tabindex="2"/></p>
 
-                    <p class="smallbutton"><input class="smallbutton" id="login" name="login"
+                    <!-- <p class="smallbutton"><input class="smallbutton" id="login" name="login"
                                                   type="submit"
-                                                  value="Login" tabindex="3"/></p>
+                                                  value="Login" tabindex="3"/></p> -->
+                    <p class="btn-create-account" style="height:70px;left:0px"><a href="#" name="login" id="login">Login</a></p>                              
+                    <p id="btn-signup-account" class="btn-create-account" style="height:70px;left:20px"><a id="signup-account" href="/chat/signup.html">Signup Account</a></p>
                 </form>
                 <p id="error_msg" style="display:none">I'm sorry but your <span
                             class="jive_red"><strong>password's</strong></span> did not match.
