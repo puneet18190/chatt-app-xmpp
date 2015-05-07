@@ -505,6 +505,7 @@ org.jive.spank.roster.Manager.prototype = {
         }
     },
     _createRosterPacketFilter: function(packet) {
+        console.log("_createRosterPacketFilter")
         var query = packet.getExtension("query");
         return query != null && query.namespaceURI == "jabber:iq:roster";
     },
@@ -2154,6 +2155,7 @@ XMPP.Message.prototype = Object.extend(new XMPP.Packet(), {
 });
 
 org.jive.spank.roster.Packet = function(packetType, from, to, element) {
+    console.log("org.jive.spank.roster.Packet")
     this._init("iq", from, to, element);
 
     if (!element) {

@@ -3886,24 +3886,28 @@ YAHOO.ext.Element.prototype.setSelectable = function(which) {
 
 org.jive.spank.control = {
     init: function() {
+        console.log("init")
         var logoutLinks = $$("a.jive-logout-link");
         logoutLinks.each(function(action, link) {
             getEl(link).addListener("click", action);
         }.bind(logoutLinks, org.jive.spank.control.actions.logout));
     },
     doConnect: function(username, password, server, viewListeners) {
-console.log('doConnect');    
+        console.log('doConnect');    
         window.connection = new XMPPConnection("/http-bind/", server,
                 new org.jive.spank.control.ConnectionListener(username(), password(),
                         viewListeners));
         connection.connect();
+        connection.getting_user_list();
     },
     doLogout: function() {
+        console.log("doLogout")
         var presence = new XMPP.Presence();
         presence.setType("unavailable");
         connection.logout(presence);
     },
 	onBeforeUnload: function(event) {
+        console.log("onBeforeUnload")
 		if (typeof window.rosterWindow == "undefined") {
             return;
         }
@@ -3912,6 +3916,7 @@ console.log('doConnect');
 		return "Leaving this page will disconnect you from Sparkweb.";
 	},
     onUnload: function(event) {
+        console.log("onUnload")
         if (typeof window.rosterWindow == "undefined") {
             return;
         }
@@ -3919,6 +3924,7 @@ console.log('doConnect');
         return true;
     },
     doRegistration: function() {
+        console.log("doRegistration")
         window.accountDialog = new jive.spank.dialog.CreateAccount(doRegistrationValidation);
     },
     doRegistrationValidation: function(fields) {
@@ -3931,6 +3937,7 @@ Event.observe(window, 'beforeunload', org.jive.spank.control.onBeforeUnload, fal
 Event.observe(window, 'unload', org.jive.spank.control.onUnload, false);
 
 org.jive.spank.control.ConnectionListener = function(username, password, viewListeners) {
+    console.log("ConnectionListener")
     this.username = username;
     this.password = password;
     this.viewListeners = viewListeners;
@@ -3939,6 +3946,7 @@ org.jive.spank.control.ConnectionListener = function(username, password, viewLis
 
 org.jive.spank.control.ConnectionListener.prototype = {
     connectionSuccessful: function(connection) {
+        console.log("connectionSuccessful")
         window.chatManager = new org.jive.spank.chat.Manager(connection);
         window.chatSessionListener = new org.jive.spank.chat.ChatSessionListener(chatSessionCreated,
                 chatSessionClosed);
@@ -3951,10 +3959,12 @@ org.jive.spank.control.ConnectionListener.prototype = {
         this.password = undefined;
     },
     connectionFailed: function() {
+        console.log("connectionFailed")
         this.password = undefined;
         this.viewListeners.onError();
     },
     connectionClosed: function(closedConnection, error) {
+        console.log("connectionClosed")
         this._cleanUp(closedConnection, error);
         if (error) {
             this.viewListeners.onError("Your connection to the server has closed, unexpectedly");
@@ -3964,6 +3974,7 @@ org.jive.spank.control.ConnectionListener.prototype = {
         }
     },
     _cleanUp: function(closedConnection, error) {
+        console.log("_cleanUp")
         destroyAllChatWindows();
         
         if (window.rosterWindow) {
@@ -3990,6 +4001,7 @@ org.jive.spank.control.ConnectionListener.prototype = {
         window.muc = undefined;
     },
     authenticationSuccessful: function(connection) {
+        console.log("authenticationSuccessful")
         window.contactMonitor = new org.jive.spank.control.ContactMonitor();
         window.presenceManager = new org.jive.spank.presence.Manager(connection, null, "manual");
         window.presenceManager
@@ -4017,15 +4029,18 @@ org.jive.spank.control.ConnectionListener.prototype = {
         getEl('myAvatar').dom.innerHTML = '<img height="48" class="avatar" src="chat/images/sparkweb-avatar.png" />';
     },
     authenticationFailed: function(failedConnection, error) {
+        console.log("authenticationFailed")
         this._cleanUp();
         this.viewListeners.onFailedAuthentication();
     },
     packetsReceived: function() {
+        console.log("packetsReceived")
         if (typeof window.rosterWindow != "undefined") {
             rosterWindow.beginUpdate();
         }
     },
     packetsProcessed: function() {
+        console.log("packetsProcessed")
         if (typeof window.rosterWindow != "undefined") {
             rosterWindow.endUpdate();
         }
@@ -4038,6 +4053,7 @@ org.jive.spank.control.ContactMonitor = function() {
 
 org.jive.spank.control.ContactMonitor.prototype = {
     _handleRoster: function(roster) {
+        console.log("_handleRoster")
         window.rosterWindow = spank.loadComponent("roster");
         rosterWindow.addTab("Contacts");
         rosterWindow.setRoster(roster.getRoster());
@@ -4095,12 +4111,14 @@ org.jive.spank.control.ContactMonitor.prototype = {
         rosterManager.addRosterListener(this);
     },
     _initContactContextMenu: function() {
+        console.log("_initContactContextMenu")
         var actions = [{name: "Start Chat", action: this._startChatRosterContact.bind(this)},
         {name: "Rename Contact", action: this._renameRosterContact.bind(this)},
         {name: "Remove Contact", action: this._removeRosterContact.bind(this)}];
         this.contactContextMenu = new jive.spank.menu.ContactContext(rosterWindow, actions);
     },
     _showContextMenu: function(roster, contact, x, y) {
+        console.log("_showContextMenu")
         if(!this.contactContextMenu) {
             this._initContactContextMenu();
         }
@@ -4108,15 +4126,18 @@ org.jive.spank.control.ContactMonitor.prototype = {
         this.contactContextMenu.show(x, y);
     },
     _startChatRosterContact: function() {
+        console.log("_startChatRosterContact")
         doOpenContact(rosterWindow.roster, this.selectedContact.jid);
     },
     _renameRosterContact: function() {
+        console.log("_renameRosterContact")
         rosterWindow.showRename(this.selectedContact);
     },
     _removeRosterContact: function() {
         rosterWindow.showRemove(this.selectedContact);
     },
     handlePresence: function(presencePacket) {
+        console.log("handlePresence")
         var presence;
         if (presencePacket.getType() == "subscribe") {
             this.handleSubscription(presencePacket.getFrom());
@@ -4557,6 +4578,7 @@ function chatSessionCreated(manager, session) {
 }
 
 function getContact(jid, name) {
+    console.log("getContact")
     var bare = new XMPP.JID(jid).getBareJID();
     var contactObj;
     if (muc.getRoom(bare)) {
@@ -4578,6 +4600,7 @@ function getContact(jid, name) {
 }
 
 function getContactPresence(jid) {
+    console.log("getContactPresence")
     var room = muc.getRoom(jid.getBareJID());
     var presence;
     if (room) {
@@ -4590,6 +4613,7 @@ function getContactPresence(jid) {
 }
 
 function handleMessage(jid, messageBody) {
+    console.log("handleMessage")
     jid = new XMPP.JID(jid);
     var type = getChatWindow("chattest").tabs[jid.toString()].type;
     var username;

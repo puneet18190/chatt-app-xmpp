@@ -36,6 +36,7 @@ XMPPConnection.prototype = {
  * @param {Object} connectionListener the connection listener which is being added.
  */
     addConnectionListener: function(connectionListener) {
+        console.log("addConnectionListener")
         if (!connectionListener) {
             return;
         }
@@ -48,6 +49,7 @@ XMPPConnection.prototype = {
  * @param {Object} connectionListener the listener which is being removed.
  */
     removeConnectionListener: function(connectionListener) {
+        console.log("removeConnectionListener")
         if (!connectionListener) {
             return;
         }
@@ -57,6 +59,7 @@ XMPPConnection.prototype = {
         }
     },
     _fireEvent: function(event, error) {
+        console.log("_fireEvent")
         var self = this;
         this._connectionListeners.each(function(listener) {
             if (listener[event]) {
@@ -75,14 +78,47 @@ XMPPConnection.prototype = {
  * listeners. If the connection is not successful the connectionFailed event will be fired.
  */
     connect: function() {
+        console.log("connect")
         this.connection.connect(this._configureConnection.bind(this));
     },
     logout: function(packet) {
+        console.log("logout")
         if (this.loggedOut) {
             return;
         }
         this.connection.disconnect((packet ? packet.toXML() : ""), this.destroy.bind(this),
                 this.destroy.bind(this));
+    },
+    getting_user_list: function(){
+        console.log("==================getting_user_list==================")
+        localStorage.username = this.username
+        function get_list() { setTimeout(function() {
+            var xhr = new XMLHttpRequest();
+            var user = localStorage.username
+            localStorage.removeItem("username");
+            xhr.open('get', '/get_user_list?username='+user);
+            xhr.onreadystatechange = function (e) { 
+                if (e.currentTarget.responseText != ""){
+                    var res = JSON.parse(e.currentTarget.responseText)
+                    var div = document.getElementById("jive-roster").parentNode
+                    for (i = 0; i < res.data.length; i++) { 
+                        div.innerHTML = div.innerHTML + "<li>"+res.data[i][0]+"</li>"
+                    }
+                }
+            }
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send();
+        }, 1000); }
+        get_list()
+        // var userlistIQ = new XMPP.IQ("get",null,'178.79.176.119')
+        // var userlist = userlistIQ.addExtension("query", "urn:xmpp:userlocation")
+        // userlist.appendChild(userlistIQ.doc.createElement("username")).appendChild(userlistIQ.doc.createTextNode(this.username+"@li345-119"));
+        // // bindIQ.toXML()
+        // this.sendPacket(userlistIQ)
+        // var callback = function(packet) {
+        //     console.log("=================userlist callback===========")
+        // }.bind(this);
     },
 /**
  * Closes the connection to the server. If an error is passed in it will be passed
@@ -91,6 +127,7 @@ XMPPConnection.prototype = {
  * @param {Error} error an error if it occured to close the connection.
  */
     destroy: function(error) {
+        console.log("destroy")
         if (!this.isConnected) {
             return;
         }
@@ -123,24 +160,26 @@ XMPPConnection.prototype = {
  * using the same username on the server.
  */
     login: function(username, password, resource) {
-
+        console.log("login")
         // don't save password for security purposes.
         this.username = username;
         this.resource = (!resource ? "spank" : resource);
         
         var authHandler = this._handleAuthentication.bind(this);
         this.connection.addListener("success", authHandler);        
+
         this.connection.login(username, password, resource);
     },
     _handleAuthentication: function() {
-
- connection._fireEvent("authenticationSuccessful");
+        console.log("_handleAuthentication")
+connection._fireEvent("authenticationSuccessful");
  	
 	this.connection._clearListeners();                
-	this._addListeners();                
+	this._addListeners();
     },
     
     _configureConnection: function() {
+        console.log("_configureConnection")
         this.isConnected = true;
         this._fireEvent("connectionSuccessful");
     },
@@ -166,11 +205,14 @@ XMPPConnection.prototype = {
         return authMechanism;
     },
     _addListeners: function() {
+        console.log("_addListeners")
         this.connection.addListener("success", this._handlePackets.bind(this));
         this.connection.addListener("failure", this._handleFailure.bind(this));
         this.connection.addListener("exception", this._handleException.bind(this));
     },
+
     _bindConnection: function() {
+        console.log("_bindConnection")
         var bindIQ = new XMPP.IQ("set");
         bindIQ.setXMLNS("jabber:client");
 
@@ -236,6 +278,7 @@ XMPPConnection.prototype = {
         }
 
         this._handlePacket(this._outgoingPacketFilters.slice(), packet);
+        console.log("Packet: " +packet.toXML())
         this.connection.send(packet.toXML());
     },
     _handleFailure: function(request, header) {
@@ -249,7 +292,7 @@ XMPPConnection.prototype = {
         this.destroy(error);
     },
     _handlePackets: function(element) {
-        console.log("_handlePackets")
+        console.log("_handlePackets1")
 
         this._fireEvent("packetsReceived");
  
@@ -328,7 +371,7 @@ XMPPConnection.prototype = {
         this._outgoingPacketFilters.push(packetFilter);
     },
     _handlePacket: function(packetFilters, packet) {
-        console.log("_handlePacket")
+        console.log("_handlePacket2")
         for (var i = packetFilters.length - 1; i >= 0; i--) {
             try {
                 if (packetFilters[i].accept(packet) && packetFilters[i].removeOnExecution) {
@@ -393,6 +436,7 @@ XMPP.WS.prototype = {
         
 	this._ws = new WebSocket(this.protocol + "//" + "178.79.176.119" + ":7070" + "/ws/server?username=" + username + "&password=" + password + "&resource=" + resource, "xmpp");        
 	this._ws.onopen = this._onopen.bind(this);
+    console.log("----onmessage----------")
 	this._ws.onmessage = this._onmessage.bind(this);
 	this._ws.onclose = this._onclose.bind(this);
 	

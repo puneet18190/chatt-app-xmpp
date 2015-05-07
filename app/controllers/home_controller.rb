@@ -1,5 +1,7 @@
 require 'optparse'
 require 'xmpp4r'
+require 'httparty'
+require 'nokogiri'
 include Jabber
 
 class HomeController < ApplicationController
@@ -53,5 +55,19 @@ class HomeController < ApplicationController
       res = xmpp_client.register(params[:password], {"email"=>"#{params[:user_id]}@li345-119", "name"=>"#{params[:name]}"})
       xmpp_client.close
       render :json => {:status => (res == :cancel ? "false" : "true") }
+  end  
+
+  def get_user_list
+    response = HTTParty.get("http://178.79.176.119:9090/plugins/contactSync/userservice?type=getFriends&secret=6YkiVhfd&username=#{params[:username]}")
+    doc=Nokogiri::XML(response.body)
+    @name = [];@username=[];@email=[];@data=[];
+    doc.css("users user").each do |name|
+      @name << name.css("name").text
+      @username << name.css("username").text
+      @email << name.css("email").text
+    end 
+    @data << @name; @data << @username; @data << @email; 
+    @data = @data.transpose
+    render :json => {:data => @data }    
   end  
 end
