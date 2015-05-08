@@ -68,6 +68,7 @@ class HomeController < ApplicationController
     end 
     @data << @name; @data << @username; @data << @email; 
     @data = @data.transpose
-    render :json => {:data => @data }    
+    # render :json => {:data => @data }    
+    render :json => {:data => @username }
   end  
 end

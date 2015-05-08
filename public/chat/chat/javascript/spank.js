@@ -342,6 +342,7 @@ org.jive.spank.presence.Manager.prototype = {
  * @param {XMPP.Presence} presence
  */
     sendPresence: function(presence) {
+        console.log("sendPresence")
         if (!presence) {
             presence = new XMPP.Presence();
         }
@@ -359,15 +360,18 @@ org.jive.spank.presence.Manager.prototype = {
  * @param {String} mode can be either accept, reject, or manual.
  */
     setSubscriptionMode: function(mode) {
+        console.log("setSubscriptionMode")
         this.mode = mode;
     },
     addPresenceListener: function(presenceListener) {
+        console.log("addPresenceListener")
         if (!presenceListener || !(presenceListener instanceof Function)) {
             throw Error("Presence listener must be function");
         }
         this._presenceListeners.push(presenceListener);
     },
     getHighestResource: function(jid) {
+        console.log("getHighestResource")
         var bareJID = jid.toBareJID();
         if (!this._presence[bareJID]) {
             return null;
@@ -383,6 +387,7 @@ org.jive.spank.presence.Manager.prototype = {
         return highest;
     },
     getPresence: function(jid) {
+        console.log("getPresence")
         if (!jid.getResource()) {
             return this.getHighestResource(jid);
         }
@@ -395,12 +400,14 @@ org.jive.spank.presence.Manager.prototype = {
         }
     },
     _createPresencePacketHandler: function() {
+        console.log("_createPresencePacketHandler")
         var manager = this;
         return function(presencePacket) {
             manager._handlePresencePacket(presencePacket);
         }
     },
     _handlePresencePacket: function(presencePacket) {
+        console.log("_handlePresencePacket")
         var type = presencePacket.getType();
         if (type == "available" || type == "unavailable") {
             var jid = presencePacket.getFrom();
@@ -436,9 +443,11 @@ org.jive.spank.presence.Manager.prototype = {
         });
     },
     setJID: function(jid) {
+        console.log("setJID")
         this._jid = jid;
     },
     destroy: function() {
+        console.log("destroy")
         delete this._presence;
         if (this.getConnection()) {
             this.getConnection().removePacketFilter(this._presencePacketFilter);
@@ -462,6 +471,7 @@ org.jive.spank.roster = {};
  * is not provided it will be created.
  */
 org.jive.spank.roster.Manager = function(connection, onLoadCallback, presenceManager) {
+    console.log("org.jive.spank.roster.Manager")
     if (!connection || !(connection instanceof XMPPConnection)) {
         throw Error("Connection required for the roster manager.");
     }
@@ -488,16 +498,20 @@ org.jive.spank.roster.Manager = function(connection, onLoadCallback, presenceMan
     this.onLoadCallback = onLoadCallback;
     var rosterPacket = new org.jive.spank.roster.Packet();
     this._initialRequestID = rosterPacket.getID();
+    console.log("connection.sendPacket(rosterPacket)")
     connection.sendPacket(rosterPacket);
 
     this.rosterListeners = new Array();
 }
 
 org.jive.spank.roster.Manager.prototype = {
+    
     getRoster: function() {
+        console.log("getRoster")
         return this._roster;
     },
     _rosterPacketHandler: function() {
+        console.log("_rosterPacketHandler")
         var manager = this;
         return function(rosterPacket) {
             manager._handleRosterPacket(
@@ -520,6 +534,7 @@ org.jive.spank.roster.Manager.prototype = {
         }
     },
     _handleInitialResponse: function(rosterPacket) {
+        console.log("_handleInitialResponse")
         this._roster = {};
         this._users = {};
         this._handleRosterAdd(rosterPacket, false);
@@ -531,6 +546,7 @@ org.jive.spank.roster.Manager.prototype = {
         presenceManager.sendPresence();
     },
     _handleRosterAdd: function(rosterPacket, shouldFireListeners) {
+        console.log("_handleRosterAdd")
         var items = rosterPacket.getItems();
         var roster = this._roster;
         var users = this._users;
@@ -622,6 +638,7 @@ org.jive.spank.roster.Manager.prototype = {
         }
     },
     _fireRosterUpdates: function(added, updated, removed) {
+        console.log("_fireRosterUpdates")
         this.rosterListeners.each(function(listener) {
             if (added.length > 0 && listener.onAdded) {
                 listener.onAdded(added);
@@ -635,6 +652,7 @@ org.jive.spank.roster.Manager.prototype = {
         });
     },
     addEntry: function(jid, name, groups) {
+        console.log("addEntry")
         var packet = new org.jive.spank.roster.Packet("set");
         var item = packet.addItem(jid, name);
         if (groups) {
@@ -645,10 +663,12 @@ org.jive.spank.roster.Manager.prototype = {
         this.getConnection().sendPacket(packet);
 
         var presence = new XMPP.Presence(jid);
-        presence.setType("subscribe");
+        // presence.setType("subscribe");
+        presence.setType("subscribed");
         this.getConnection().sendPacket(presence);
     },
     removeEntry: function(jid) {
+        console.log("removeEntry")
         var packet = new org.jive.spank.roster.Packet("set");
         var item = packet.addItem(jid);
         item.setSubscription("remove");
@@ -662,6 +682,7 @@ org.jive.spank.roster.Manager.prototype = {
  * @param {Object} rosterListener contains onAdded, onUpdated, and onRemoved
  */
     addRosterListener: function(rosterListener) {
+        console.log("addRosterListener")
         this.rosterListeners.push(rosterListener);
     },
 /**
@@ -670,6 +691,7 @@ org.jive.spank.roster.Manager.prototype = {
  * @param {Object} rosterListener the listener to remove.
  */
     removeRosterListener: function(rosterListener) {
+        console.log("removeRosterListener")
         if (!rosterListener) {
             return;
         }
@@ -680,6 +702,7 @@ org.jive.spank.roster.Manager.prototype = {
         }
     },
     destroy: function() {
+        console.log("destroy")
         this.rosterListeners.clear();
         this.getConnection = Prototype.emptyFunction;
         delete this._roster;

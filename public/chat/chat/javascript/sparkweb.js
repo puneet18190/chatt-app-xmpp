@@ -2188,6 +2188,7 @@ YAHOO.extend(jive.spank.chat.Dialog, YAHOO.ext.BasicDialog, {
 jive.spank.dialog = {};
 
 jive.spank.dialog.StartChat = function(callback) {
+    console.log("jive.spank.dialog.StartChat")
     var chatDlog = new jive.spank.chat.Dialog(this,
             jive.spank.chat.Template.start_chat,
     {title: "Start a chat",
@@ -2413,6 +2414,7 @@ if (window.jive_enable_grid) {
 ;
 
 jive.spank.dialog.CreateAccount = function(verify) {
+    console.log("jive.spank.dialog.CreateAccount")
     this.dialog = new jive.spank.chat.Dialog(null,
             jive.spank.chat.Template.create_account,
     {title: "Creating an account",
@@ -2495,6 +2497,7 @@ jive.spank.dialog.CreateAccount.prototype = {
 }
 
 jive.spank.roster.Roster = function (id, separateOfflines) {
+    console.log("jive.spank.roster.Roster")
     this.el = getEl(id);
     this.groups = {};
     this.events = {
@@ -2532,6 +2535,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
  * @param {Object} JSON representing the group's members, with usernames as keys.
  */
     addGroup: function(groupName, groupObj) {
+        console.log("addGroup")
         if (this.groups[groupName]) {
             return this.groups[groupName];
         }
@@ -2542,11 +2546,13 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     addContact: function(userObj, groupName, groupObj) {
+        console.log("addContact")
         var group = this.addGroup(groupName, groupObj);
         group.addContact(userObj);
     },
 
     removeContact: function(jid) {
+        console.log("removeContact")
         var victim = this.findContact(jid);
         if (!victim) {
             return;
@@ -2566,6 +2572,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
  * usernames as keys beneath that.
  */
     setRoster: function(rosterObj) {
+        console.log("setRoster")
         var groupObj;
         for (var groupName in rosterObj) {
             groupObj = rosterObj[groupName];
@@ -2574,6 +2581,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     render: function() {
+        console.log("render")
         var groupHTML = '';
         var skipOfflinesFlag = typeof this.offlines != 'undefined';
 
@@ -2595,6 +2603,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
  * Returns contact obj for the currently selected contact.
  */
     getSelectedUser: function() {
+        console.log("getSelectedUser")
         var victim = $$('ul#' + this.id + ' ul.group-list li.selected')[0];
         var idparts = victim.id.split("-");
         var grouphandle = idparts[3];
@@ -2603,6 +2612,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     findContact: function(jid, groupName) {
+        console.log("findContact")
         if (groupName) groupName = groupName.replace(/[^0-9A-Za-z]/, '_');
         for (var grouploopName in this.groups) {
             if (groupName && grouploopName.replace(/[^0-9A-Za-z]/, '_') != groupName) continue;
@@ -2617,6 +2627,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     changeContactStatus: function(jid, newMode, newStatus) {
+        console.log("changeContactStatus")
         var contact = this.findContact(jid);
         if (contact) {
             contact.changeStatus(newMode, newStatus);
@@ -2624,6 +2635,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     getContactStatus: function(jid) {
+        console.log("getContactStatus")
         var contact = this.findContact(jid);
         if (contact) {
             return contact.status;
@@ -2631,6 +2643,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     _getOfflineHTML: function() {
+        console.log("_getOfflineHTML")
         this.offlines = "Offline_Group-" + this.el.id;
         var groups = this.groups;
         var offlineHTML = '';
@@ -2670,6 +2683,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
     },
 
     _enableOfflineBehaviors: function() {
+        console.log("_enableOfflineBehaviors")
         // behaviors on contacts will be taken care of,
         // but not showing and hiding the group. hence:
         var offlineGroupLabel = getEl('group-label-' + this.offlines);
@@ -2722,6 +2736,7 @@ YAHOO.extend(jive.spank.roster.Roster, YAHOO.ext.util.Observable, {
 
 
 jive.spank.roster.RosterGroup = function(roster, name, groupJson) {
+    console.log("jive.spank.roster.RosterGroup")
     this.name = name;
     this.cleanName = name.replace(/[^A-Za-z0-9]/, '_');
 
@@ -2738,6 +2753,7 @@ jive.spank.roster.RosterGroup = function(roster, name, groupJson) {
 
 jive.spank.roster.RosterGroup.prototype = {
     _rebuildContacts: function(json) {
+        console.log("_rebuildContacts")
         for (var contactUsername in json) {
             this.contacts.push(new jive.spank.roster.Contact(json[contactUsername], this));
         }
@@ -2749,6 +2765,7 @@ jive.spank.roster.RosterGroup.prototype = {
  * @param {Object} JSON-ish object with jid, optional status.
  */
     addContact: function(userObject) {
+        console.log("addContact")
         var newguy = new jive.spank.roster.Contact(userObject, this);
         this.contacts.push(newguy);
 
@@ -2771,6 +2788,7 @@ jive.spank.roster.RosterGroup.prototype = {
     },
 
     removeContact: function(jid) {
+        console.log("removeContact")
         var victim = this.getContactByJID(jid);
 		if (!victim) {
             return;
@@ -2787,6 +2805,7 @@ jive.spank.roster.RosterGroup.prototype = {
  * @param {String} a jid, of course.
  */
     contactIndexByJid: function(jid) {
+        console.log("contactIndexByJid")
         for (var u = this.contacts.length - 1; u >= 0; u--) {
             if (this.contacts[u].jid == jid) {
                 return u;
@@ -2796,6 +2815,7 @@ jive.spank.roster.RosterGroup.prototype = {
     },
 
     getContactByJID: function(jid) {
+        console.log("getContactByJID")
         var index = this.contactIndexByJid(jid);
         if (index >= 0) {
             return this.contacts[index];
@@ -2809,6 +2829,7 @@ jive.spank.roster.RosterGroup.prototype = {
  * Returns HTML for whole group. Doesn't add it anywhere or make things clickable.
  */
     render: function(skipOfflines, isClosed) {
+        console.log("render")
         var renderClosed = (isClosed ? 'closed' : 'open');
 
         var body = this._getMembersHtml(skipOfflines);
@@ -2837,6 +2858,7 @@ jive.spank.roster.RosterGroup.prototype = {
  * Kill self, no questions asked
  */
     remove: function() {
+        console.log("remove")
         var elm = getEl("group-" + this.id);
         YAHOO.ext.EventManager.removeListener(elm, "click", this._wrappedClick);
         this._wrappedClick = null;
@@ -2845,6 +2867,7 @@ jive.spank.roster.RosterGroup.prototype = {
     },
 
     _getMembersHtml: function(skipOfflines) {
+        console.log("_getMembersHtml")
         var userDump = '';
         for (var u = 0; u < this.contacts.length; u++) {
             if (!skipOfflines || this.contacts[u].status != 'unavailable') {
@@ -2855,6 +2878,7 @@ jive.spank.roster.RosterGroup.prototype = {
     },
 
     _enableBehaviors: function(doGroupHiding) {
+        console.log("_enableBehaviors")
         if (doGroupHiding == null) {
             doGroupHiding = true;
         }
@@ -2876,10 +2900,12 @@ jive.spank.roster.RosterGroup.prototype = {
 };
 
 jive.spank.roster.RosterGroup.toggleGroupVisListener = function(evt) {
+    console.log("jive.spank.roster.RosterGroup.toggleGroupVisListener")
     jive.spank.roster.RosterGroup.toggleGroupVisibility(getEl(evt.getTarget().parentNode));
 };
 
 jive.spank.roster.RosterGroup.toggleGroupVisibility = function(groupLabelElement, forceNoDisplay) {
+    console.log("jive.spank.roster.RosterGroup.toggleGroupVisibility")
     var groupElement = getEl(groupLabelElement.dom.parentNode);
     var groupListElement = groupElement.getChildrenByClassName("group-list")[0];
     if (groupListElement == null) {
@@ -2896,6 +2922,7 @@ jive.spank.roster.RosterGroup.toggleGroupVisibility = function(groupLabelElement
 }
 
 jive.spank.roster.RosterGroup.sortContactHTML = function(id) {
+    console.log("jive.spank.roster.RosterGroup.sortContactHTML")
     var prent = getEl('group-list-' + id);
     if (prent && prent.dom != null) {
         var lines = prent.getChildrenByTagName('li');
@@ -2921,6 +2948,7 @@ jive.spank.roster.RosterGroup.sortContactHTML = function(id) {
 
 
 jive.spank.roster.Contact = function(userObject, groupRef) {
+    console.log("jive.spank.roster.Contact")
     this.jid = userObject.getJID();
     this.name = (userObject.getName && userObject.getName() ? userObject.getName()
             : this.jid.toString());
@@ -2965,6 +2993,7 @@ YAHOO.extend(jive.spank.roster.Contact, YAHOO.ext.util.Observable, {
  * @param {String} string to hopefully match one of the status class declarations.
  */
     changeStatus: function(newMode, newStatus) {
+        console.log("changeStatus")
         newMode = newMode.toLowerCase();
 
         var contactSpan = getEl(this.id).dom.childNodes[0];
@@ -3014,12 +3043,14 @@ YAHOO.extend(jive.spank.roster.Contact, YAHOO.ext.util.Observable, {
     },
 
     _changeStatusMsg: function(msg) {
+        console.log("_changeStatusMsg")
         this.currentMessage = (!msg || msg.strip() == '' ? '' : '- ' + msg);
         var statusElm = getEl(this.id + '-msg');
         statusElm.dom.innerHTML = this.currentMessage;
     },
 
     _enableBehaviors: function() {
+        console.log("_enableBehaviors")
         var elm = getEl(this.id);
         if (elm) {
             elm.unselectable();
@@ -3072,6 +3103,7 @@ YAHOO.extend(jive.spank.roster.Contact, YAHOO.ext.util.Observable, {
  * @param {String} groupName name of group to look in. Cleaned w/ underscores or not, doesn't matter.
  */
 jive.spank.roster.Contact.find = function(currentRoster, jid, groupName) {
+    console.log("jive.spank.roster.Contact.find")
     var grouploop = currentRoster.groups;
     for (var grouploopName in grouploop) {
         if (groupName && grouploopName.replace(/[^0-9A-Za-z]/, '_') != groupName) continue;
@@ -3087,6 +3119,7 @@ jive.spank.roster.Contact.find = function(currentRoster, jid, groupName) {
 
 
 jive.spank.chat.Control = function(panelToAdd, title, elm) {
+    console.log("jive.spank.chat.Control")
     // elm is a bare HTMLElement, so there's a chance we'll need this:
     elm.id = elm.id || YAHOO.util.Dom.generateId();
 
@@ -3167,6 +3200,7 @@ YAHOO.extend(jive.spank.chat.Control, YAHOO.ext.util.Observable, {
     }
 });
 jive.spank.chat.Control.add = function(destElm, ctrlTitle, confObj) {
+    console.log("jive.spank.chat.Control.add")
     var body = document.getElementsByTagName('body')[0];
     // fetch elm if ctrlElmId provided
     if (typeof confObj != 'function' && confObj.elmId != null) {
@@ -3899,6 +3933,14 @@ org.jive.spank.control = {
                         viewListeners));
         connection.connect();
         connection.getting_user_list();
+        
+        function add_list() { setTimeout(function() {
+            for (i = 0; i <  localStorage.res.split(",").length; i++) {
+                rosterManager.addEntry(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"), localStorage.res.split(",")[i], new Array("Users"));
+            }
+            localStorage.removeItem("res");
+        }, 1000); } 
+        add_list()   
     },
     doLogout: function() {
         console.log("doLogout")
@@ -4091,6 +4133,7 @@ org.jive.spank.control.ContactMonitor.prototype = {
         });
 
         rosterWindow.addListener('changestatus', function(window, mode, status) {
+            console.log("changestatus")
             var presence = new XMPP.Presence();
             presence.setMode(mode);
             presence.setStatus(status);
@@ -4112,10 +4155,10 @@ org.jive.spank.control.ContactMonitor.prototype = {
     },
     _initContactContextMenu: function() {
         console.log("_initContactContextMenu")
-        var actions = [{name: "Start Chat", action: this._startChatRosterContact.bind(this)},
-        {name: "Rename Contact", action: this._renameRosterContact.bind(this)},
-        {name: "Remove Contact", action: this._removeRosterContact.bind(this)}];
-        this.contactContextMenu = new jive.spank.menu.ContactContext(rosterWindow, actions);
+        // var actions = [{name: "Start Chat", action: this._startChatRosterContact.bind(this)},
+        // {name: "Rename Contact", action: this._renameRosterContact.bind(this)},
+        // {name: "Remove Contact", action: this._removeRosterContact.bind(this)}];
+        // this.contactContextMenu = new jive.spank.menu.ContactContext(rosterWindow, actions);
     },
     _showContextMenu: function(roster, contact, x, y) {
         console.log("_showContextMenu")
@@ -4178,18 +4221,22 @@ org.jive.spank.control.ContactMonitor.prototype = {
         }
     },
     handleAddContact: function(window, jid, nick, group) {
+        console.log("handleAddContact")
         rosterManager.addEntry(new XMPP.JID(jid), nick, new Array(group));
     },
     handleRemoveContact: function(window, jid) {
+        console.log("handleRemoveContact")
         rosterManager.removeEntry(new XMPP.JID(jid));
     },
     onAdded: function(rosterItems) {
+        console.log("onAdded")
         for (var i = 0; i < rosterItems.length; i++) {
             var rosterItem = rosterItems[i];
             this.addContact(rosterItem);
         }
     },
     addContact: function(rosterItem) {
+        console.log("addContact")
         var groups = rosterItem.getGroups();
         var jid = rosterItem.getJID().toString();
         var presencePacket = presenceManager.getPresence(rosterItem.getJID());
@@ -4213,6 +4260,7 @@ org.jive.spank.control.ContactMonitor.prototype = {
         rosterWindow.addContact(contact, (groups[0] ? groups[0] : "Unfiled"));
     },
     onUpdated: function(rosterItems) {
+        console.log("onUpdated")
         for (var i = 0; i < rosterItems.length; i++) {
             var rosterItem = rosterItems[i];
             rosterWindow.removeContact(rosterItem.getJID().toString());
@@ -4220,12 +4268,14 @@ org.jive.spank.control.ContactMonitor.prototype = {
         }
     },
     onRemoved: function(rosterItems) {
+        console.log("onRemoved")
         for (var i = 0; i < rosterItems.length; i++) {
             var rosterItem = rosterItems[i];
             rosterWindow.removeContact(rosterItem.getJID().toString());
         }
     },
     getMode: function(presencePacket) {
+        console.log("getMode")
         var mode;
         var status;
         if (!presencePacket) {
@@ -4252,6 +4302,7 @@ org.jive.spank.control.ContactMonitor.prototype = {
         };
     },
     handleSubscription: function(from) {
+        console.log("handleSubscription")
         if (!rosterManager._users[from.toBareJID()]) {
             rosterWindow.showSubscriptionRequest(from.toString(), from.getNode());
         }
@@ -4260,6 +4311,7 @@ org.jive.spank.control.ContactMonitor.prototype = {
         }
     },
     handleAcceptSubscription: function(dialog, shouldAddToContact, jid, nick, group) {
+        console.log("handleAcceptSubscription")
         var presence = new XMPP.Presence(new XMPP.JID(jid));
         presence.setType("subscribed");
         connection.sendPacket(presence);
@@ -4269,11 +4321,13 @@ org.jive.spank.control.ContactMonitor.prototype = {
         }
     },
     handleDenySubscription: function(dialog, shouldAddToContact, jid, nick, group) {
+        console.log("handleDenySubscription")
         var presence = new XMPP.Presence(new XMPP.JID(jid));
         presence.setType("unsubscribed");
         connection.sendPacket(presence);
     },
     destroy: function() {
+        console.log("destroy")
         if (this.contactContextMenu) {
             this.contactContextMenu.destroy();
             delete this.contactContextMenu;
@@ -4497,6 +4551,7 @@ org.jive.spank.control.actions = {
 }
 
 function getChatWindow(id) {
+    console.log("getChatWindow")
     var chatWindow;
     if (org.jive.spank.control.windows[id]) {
         chatWindow = jive.spank.chat.ChatWindow.getWindow(org.jive.spank.control.windows[id]);
@@ -4514,7 +4569,7 @@ function getChatWindow(id) {
 }
 
 function destroyAllChatWindows() {
-
+    console.log("destroyAllChatWindows")
     if (org.jive.spank.control.windows) {
     
 	    for (var id in org.jive.spank.control.windows) {
@@ -4534,6 +4589,7 @@ function destroyAllChatWindows() {
 }
 
 function initializeChatWindow(dialog) {
+    console.log("initializeChatWindow")
     dialog.addListener("message", handleMessage);
     dialog.addListener("mucdblclicked", joinMUC);
     dialog.addListener("tabclosed", handleTabClosed);
@@ -4550,6 +4606,7 @@ function initializeChatWindow(dialog) {
 }
 
 function doOpenContact(roster, contact) {
+    console.log("doOpenContact")
     var jid;
     if (!(contact.jid instanceof XMPP.JID)) {
         jid = new XMPP.JID(contact.jid);
@@ -4567,6 +4624,7 @@ function doOpenContact(roster, contact) {
 }
 
 function chatSessionCreated(manager, session) {
+    console.log("chatSessionCreated")
     console.debug("Chat session created.");
     session.addListener(chatListener);
 
@@ -4693,6 +4751,7 @@ org.jive.spank.control.InputMonitor.prototype = {
     }
 }
 function addMessage(jid, name, msg, isLocal, time) {
+    console.log("addMessage")
     getChatWindow("chattest").getContactTab({jid: jid, name: name});
     var msgObj = msg;
     if (typeof msg == 'string') {

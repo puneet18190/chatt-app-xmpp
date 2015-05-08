@@ -98,20 +98,22 @@ XMPPConnection.prototype = {
             var status = false
             localStorage.removeItem("username");
             xhr.open('get', '/get_user_list?username='+user);
-            xhr.onreadystatechange = function (e) { 
+            xhr.onreadystatechange = function (e) {
                 if (e.currentTarget.responseText != "" && status == false){
+                    
                     var res = JSON.parse(e.currentTarget.responseText)
-                    var div = document.getElementById("jive-roster").parentNode
-                    for (i = 0; i < res.data.length; i++) { 
-                        div.innerHTML = div.innerHTML + "<li>"+res.data[i][0]+"</li>"
-                        status = true
-                    }
+                    localStorage.res = res.data
+                    // var div = document.getElementById("jive-roster").parentNode
+                    // for (i = 0; i < res.data.length; i++) { 
+                    //     div.innerHTML = div.innerHTML + "<li>"+res.data[i][0]+"</li>"
+                    //     status = true
+                    // }
                 }
             }
 
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send();
-        }, 1000); }
+        }, 0000); }
         get_list()
         // var userlistIQ = new XMPP.IQ("get",null,'178.79.176.119')
         // var userlist = userlistIQ.addExtension("query", "urn:xmpp:userlocation")
