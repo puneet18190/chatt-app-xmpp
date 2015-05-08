@@ -375,7 +375,8 @@ div.jive-muc-occupants ul ul.group-list li span.msg { /* Status message of conta
 }
 
 .roster-contact-pending {
-	background: url(../images/im_pending.png) no-repeat;
+	/*background: url(../images/im_pending.png) no-repeat;*/
+	background: url(../images/im_unavailable.png) no-repeat;
 }
 
 .roster-contact-unavailable {
