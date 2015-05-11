@@ -257,6 +257,7 @@ org.jive.spank.chat.Session.prototype = {
                 listener.messageRecieved(session, message);
             }
         });
+        window.connection.send_message_status(message);
     },
     sendMessage: function(messageBody, message) {
         if (!message) {
@@ -272,6 +273,7 @@ org.jive.spank.chat.Session.prototype = {
         message.setThread(this.getThread());
 
         this.getManager().getConnection().sendPacket(message);
+        return message.getID()
     }
 }
 

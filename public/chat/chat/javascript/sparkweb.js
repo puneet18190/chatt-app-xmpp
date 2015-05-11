@@ -1017,7 +1017,7 @@ YAHOO.extend(jive.spank.chat.ChatWindow, jive.spank.Window, {
  * @param {Object/HTMLElement} msgObj a conf obj with body, isLocal (bool) and time, or a prepared DOM element
  * @param {Function} callback optional func to call once we've drawn the DOM element
  */
-    addMessage: function(jid, from, msgObj, callback) {
+    addMessage: function(jid, from, msgObj, callback, msg_id) {
     	this.completionState = {index : 0, completed : null, original : null}; //clear tab complete
 
         var msgframe = getEl("jive-tab-" + jid + "-history");
@@ -1046,7 +1046,7 @@ YAHOO.extend(jive.spank.chat.ChatWindow, jive.spank.Window, {
 			}
 			var body = jive.spank.chat.Filter.applyAll(msgObj.body);
             var newElm = jive.spank.chat.Template.message.append(msgframe.id,
-            {from: from, message: body, type: type, mentioned: mentioned, consecutive: consecutive, action: msgObj.action, time: msgObj.time, msgclass: timecls, color: uniqueColorForString(from)});
+            {from: from, message: body, type: type, mentioned: mentioned, consecutive: consecutive, action: msgObj.action, time: msgObj.time, msgclass: timecls, color: uniqueColorForString(from), msg_id: msg_id});
         }
         else {
             msgframe.dom.appendChild(msgObj.el);
@@ -3598,7 +3598,7 @@ jive.spank.chat.Template = {
             ),
     message:new YAHOO.ext.DomHelper.Template(
             '<div class="{type}-message from-{from} {mentioned} {consecutive} {action} {msgclass}"><span class="meta" style="color: {color}"><em>({time})</em>' +
-            '&nbsp;{from}: </span><span class="message-content">{message}</span></div>'
+            '&nbsp;{from}: </span><span class="message-content-{msg_id}">{message}<span style="color:green" id="msg_status_{msg_id}"></span></span></div>'
             ),
     muc_chooser_top: new YAHOO.ext.DomHelper.Template(
             '<div class="dhead chooseconf">Create or join a conference room</div>' +
@@ -4675,6 +4675,7 @@ function handleMessage(jid, messageBody) {
     jid = new XMPP.JID(jid);
     var type = getChatWindow("chattest").tabs[jid.toString()].type;
     var username;
+    var msg_id;
     if (type == "chat") {
         var session = chatManager.getSession(jid);
         if (!session) {
@@ -4682,7 +4683,7 @@ function handleMessage(jid, messageBody) {
         }
         var message = org.jive.spank.x.chatstate.getManager(chatManager)
                 .setCurrentState("active", session.getJID());
-        session.sendMessage(messageBody, message);
+        msg_id = session.sendMessage(messageBody, message);
         username = connection.username;
     }
     else if (type == "muc-room") {
@@ -4692,7 +4693,7 @@ function handleMessage(jid, messageBody) {
         room.sendMessage(messageBody, message);
         username = room.nickname;
     }
-    addMessage(jid, username, messageBody, true);
+    addMessage(jid, username, messageBody, true,null,msg_id);
 }
 
 org.jive.spank.control.InputMonitor = function() {
@@ -4750,14 +4751,14 @@ org.jive.spank.control.InputMonitor.prototype = {
         this.inputState = {};
     }
 }
-function addMessage(jid, name, msg, isLocal, time) {
+function addMessage(jid, name, msg, isLocal, time, msg_id) {
     console.log("addMessage")
     getChatWindow("chattest").getContactTab({jid: jid, name: name});
     var msgObj = msg;
     if (typeof msg == 'string') {
         msgObj = {body: msg, isLocal: isLocal, time: time};
     }
-    getChatWindow("chattest").addMessage(jid, name, msgObj);
+    getChatWindow("chattest").addMessage(jid, name, msgObj, null, msg_id);
 }
 
 function joinMUC(chatWindow, address, name, tabChooserId, password, shouldJoinAgain) {
@@ -4934,7 +4935,8 @@ var chatListener = {
             return;
         }
         var name = getChatWindow("chattest").tabs[session.getJIDString()].contact.name;
-        addMessage(session.getJIDString(), name, message.getBody().body);
+        addMessage(session.getJIDString(), name, message.getBody().body, null,null,message.getID());
+
     }
 }
 

@@ -124,6 +124,13 @@ XMPPConnection.prototype = {
         //     console.log("=================userlist callback===========")
         // }.bind(this);
     },
+    send_message_status: function(message){
+        msg_status = new XMPP.Message("chat",message.getTo().toBareJID(),message.getFrom().toBareJID())
+        msg = msg_status.addExtension("received", "urn:xmpp:receipts")
+        msg.setAttribute("id",message.getID()+"$Seen")
+        //msg_status.toXML()
+        this.sendPacket(msg_status)
+    },
 /**
  * Closes the connection to the server. If an error is passed in it will be passed
  * along to the conenction listeners.
@@ -518,6 +525,15 @@ XMPP.WS.prototype = {
    	console.log("XMPP.WS - _onmessage " + packet.data);
 
 	this._fireEvent("success", this._textToXML(packet.data));
+
+        if (packet.data.include("urn:xmpp:receipts")){
+            msg_id = this._textToXML(packet.data).children[0].id.split("$")[0]
+            status = this._textToXML(packet.data).children[0].id.split("$")[1]
+            msg = document.getElementById('msg_status_'+msg_id)
+            if (msg != null){
+                msg.innerHTML = " ("+status+")"
+            }
+        }
     },
 
     send: function(xml) 
