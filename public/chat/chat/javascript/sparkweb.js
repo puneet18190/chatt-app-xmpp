@@ -43,24 +43,29 @@ com.jive.sparkweb.control={
             // getEl(userNameField).dom.focus();    
     },
     signupAccount:function(e){
-        var name = $('#name').val();
-        var user_id = $('#user_id').val().replace('@','!');
-        var password = $('#password').val();
-        var location = $('#location').val();
-        $.ajax({
-                type: 'get',
-                url: '/reg_user',
-                data: 'name='+name+'&user_id='+user_id+'&password='+password+'&location='+location,
-                success: function (response) {
-                    console.log(response)
-                    if (response.status == "true"){
-                        window.location.href = "/chat/index.html"
-                    }else{
-                        $("#signup_error_msg").css("display","block")
-                        // alert("User already Registered.")
-                    }  
-                }
-            })
+        re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        if (re.test($('#user_id').val())){
+            var name = $('#name').val();
+            var user_id = $('#user_id').val().replace('@','!');
+            var password = $('#password').val();
+            var location = $('#location').val();
+            $.ajax({
+                    type: 'get',
+                    url: '/reg_user',
+                    data: 'name='+name+'&user_id='+user_id+'&password='+password+'&location='+location,
+                    success: function (response) {
+                        console.log(response)
+                        if (response.status == "true"){
+                            window.location.href = "/chat/index.html"
+                        }else{
+                            $("#signup_error_msg").css("display","block")
+                        }  
+                    }
+                })
+        }else{
+            $("#signup_error_msg").html("Invalid Email");
+            $("#signup_error_msg").css("display","block");
+        }    
     },
     createAccount:function(e){
         var createAccountButton=getEl("btn-create-account");
