@@ -44,7 +44,7 @@ com.jive.sparkweb.control={
     },
     signupAccount:function(e){
         var name = $('#name').val();
-        var user_id = $('#user_id').val();
+        var user_id = $('#user_id').val().replace('@','!');
         var password = $('#password').val();
         var location = $('#location').val();
         $.ajax({
@@ -1156,6 +1156,7 @@ YAHOO.extend(jive.spank.chat.ChatWindow, jive.spank.Window, {
  * @param {String} jid the jid to clear the notifications for.
  */
     clearNotification: function(jid) {
+        console.log("clearNotification")
         var thetab = this.getTabByJID(jid);
         if (thetab && thetab.textEl) {
             thetab.textEl.removeClass('jive-notify').removeClass('flashNotify');
@@ -1173,6 +1174,7 @@ YAHOO.extend(jive.spank.chat.ChatWindow, jive.spank.Window, {
  * Clears all notifications operating on this window.
  */
     clearAllNotifications: function() {
+        console.log("clearAllNotifications")
         var blinkers = getEls('#' + this.bodyId + ' span.jive-notify');
         blinkers.removeClass('jive-notify');
         // doesn't fix tab texts on the assumption that we call this when we close

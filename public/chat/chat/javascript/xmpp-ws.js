@@ -440,6 +440,7 @@ XMPP.WS.prototype = {
     {
     	console.log("XMPP.WS - login " + username);
     	
+        username = username.replace("@", "!")
         this.username = username;
         this.password = password;        
         this.resource = (!resource ? "spank" : resource);
@@ -502,12 +503,6 @@ XMPP.WS.prototype = {
     {
         document.getElementById("error_msg").style.display = "none"
         if (this.isConnected() == false){
-            // var ask = window.confirm("Username or Password is incorrect.")
-            // if (ask){
-            //     window.location.href = "/chat/index.html"
-            // }else{
-            //     window.location.href = "/chat/index.html"
-            // }
             window.location.href = "/chat/index.html"
             localStorage.error = "true";
         }

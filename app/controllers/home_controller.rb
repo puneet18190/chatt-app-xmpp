@@ -58,7 +58,7 @@ class HomeController < ApplicationController
   end  
 
   def get_user_list
-    response = HTTParty.get("http://178.79.176.119:9090/plugins/contactSync/userservice?type=getFriends&secret=6YkiVhfd&username=#{params[:username]}")
+    response = HTTParty.get("http://178.79.176.119:9090/plugins/contactSync/userservice?type=getFriends&secret=6YkiVhfd&username=#{params[:username].gsub('@','!')}")
     doc=Nokogiri::XML(response.body)
     @name = [];@username=[];@email=[];@data=[];
     doc.css("users user").each do |name|
