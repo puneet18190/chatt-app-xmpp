@@ -3042,7 +3042,7 @@ YAHOO.extend(jive.spank.roster.Contact, YAHOO.ext.util.Observable, {
 */    
         return jive.spank.chat.Template.contact.applyTemplate({
             id: this.id,
-            username: this.name,
+            username: this.name.replace("!","@"),
             //userid: userid,
             status: this.status,
             message: this.currentMessage
