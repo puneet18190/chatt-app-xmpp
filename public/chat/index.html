@@ -8,9 +8,9 @@
     </script>
     <script src="chat/javascript/thirdparty.js" type="text/javascript"></script>
     <script src="chat/javascript/yui.js" type="text/javascript"></script>
-    <script src="chat/javascript/spank.js" type="text/javascript"></script>
-    <script src="chat/javascript/sparkweb.js" type="text/javascript"></script>
-    <script src="chat/javascript/xmpp-ws.js" type="text/javascript"></script>
+    <script src="chat/javascript/spank.js?version="+new Date().getTime() type="text/javascript"></script>
+    <script src="chat/javascript/sparkweb.js?version="+new Date().getTime() type="text/javascript"></script>
+    <script src="chat/javascript/xmpp-ws.js?version="+new Date().getTime() type="text/javascript"></script>
 
     <link rel="stylesheet" href="chat/style/basic-dialog.css" type="text/css" media="screen" charset="utf-8"/>
     <link rel="stylesheet" href="chat/style/grid.css" type="text/css" media="screen" charset="utf-8"/>
@@ -139,19 +139,19 @@
     }
 
 
-    // setInterval(function(){
-    //     if (window.connection != undefined){
-    //         window.connection.getting_user_list();
-    //         if (localStorage.res != undefined ){
-    //             for (i = 0; i <  localStorage.res.split(",").length; i++) {
-    //                 console.log(localStorage.res.split(",")[i])
-    //                 rosterManager.addEntry(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"), localStorage.res.split(",")[i], new Array());
-    //                 // rosterManager._users[localStorage.res.split(",")[i]+"@li345-119"].setSubscription("subscribed")
-    //             }
-    //             localStorage.removeItem("res");
-    //         }    
-    //     }    
-    // },5000);
+    setInterval(function(){
+        if (window.connection != undefined){
+            window.connection.getting_user_list();
+            if (localStorage.res != undefined ){
+                for (i = 0; i <  localStorage.res.split(",").length; i++) {
+                    console.log(localStorage.res.split(",")[i])
+                    rosterManager.addEntry(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"), localStorage.res.split(",")[i], new Array());
+                    // rosterManager._users[localStorage.res.split(",")[i]+"@li345-119"].setSubscription("subscribed")
+                }
+                localStorage.removeItem("res");
+            }    
+        }    
+    },5000);
     </script>
 </body>
 </html>
