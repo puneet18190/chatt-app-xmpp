@@ -665,8 +665,8 @@ org.jive.spank.roster.Manager.prototype = {
         this.getConnection().sendPacket(packet);
 
         var presence = new XMPP.Presence(jid);
-        presence.setType("subscribe");
-        // presence.setType("subscribed");
+        //presence.setType("subscribe");
+         presence.setType("subscribed");
         this.getConnection().sendPacket(presence);
     },
     removeEntry: function(jid) {

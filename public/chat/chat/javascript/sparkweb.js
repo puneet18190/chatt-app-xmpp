@@ -3944,9 +3944,9 @@ org.jive.spank.control = {
         function add_list() { setTimeout(function() {
             for (i = 0; i <  localStorage.res.split(",").length; i++) {
                 rosterManager.addEntry(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"), localStorage.res.split(",")[i], new Array("Users"));
-                var presence = new XMPP.Presence(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"));
-                presence.setType("subscribed");
-                connection.sendPacket(presence);
+                // var presence = new XMPP.Presence(new XMPP.JID(localStorage.res.split(",")[i]+"@li345-119"));
+                // presence.setType("subscribed");
+                // connection.sendPacket(presence);
             }
             localStorage.removeItem("res");
         }, 1000); } 
@@ -4267,7 +4267,7 @@ org.jive.spank.control.ContactMonitor.prototype = {
             },
             status: status
         };
-        rosterWindow.addContact(contact, (groups[0] ? groups[0] : "Users"));
+        rosterWindow.addContact(contact, (groups[0] ? groups[0] : "Unfiled"));
     },
     onUpdated: function(rosterItems) {
         console.log("onUpdated")
