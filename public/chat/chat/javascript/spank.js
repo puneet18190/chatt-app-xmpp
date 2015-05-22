@@ -564,8 +564,8 @@ org.jive.spank.roster.Manager.prototype = {
                     return;
                 }
                 delete users[jid];
-                if (roster["unfiled"] && roster["unfiled"][item.getName()]) {
-                    delete roster["unfiled"][item.getJID().toString()];
+                if (roster["abc"] && roster["abc"][item.getName()]) {
+                    delete roster["abc"][item.getJID().toString()];
                 }
                 var groups = item.getGroups();
                 for (var i = 0; i < groups.length; i++) {
@@ -623,16 +623,16 @@ org.jive.spank.roster.Manager.prototype = {
                 roster[group][item.getJID().toString()] = item;
             }
 
-            // No groups, add to unfiled.
+            // No groups, add to abc.
             if (groups.length == 0) {
-                if (!roster["unfiled"]) {
-                    roster["unfiled"] = {};
+                if (!roster["abc"]) {
+                    roster["abc"] = {};
                 }
-                if (!roster["unfiled"][item.getJID().toString()] && !isUpdated && !isAdded) {
+                if (!roster["abc"][item.getJID().toString()] && !isUpdated && !isAdded) {
                     isUpdated = true;
                     updated.push(item);
                 }
-                roster["unfiled"][item.getJID().toString()] = item;
+                roster["abc"][item.getJID().toString()] = item;
             }
         });
         if (shouldFireListeners) {
