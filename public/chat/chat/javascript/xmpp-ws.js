@@ -303,7 +303,7 @@ connection._fireEvent("authenticationSuccessful");
         this.destroy(error);
     },
     _handlePackets: function(element) {
-        console.log("_handlePackets1")
+        console.log("_handlePackets1" + element)
 
         this._fireEvent("packetsReceived");
  
@@ -529,6 +529,32 @@ XMPP.WS.prototype = {
                 msg.innerHTML = " ("+status+")"
             }
         }
+        if (packet.data.include("vcard-temp")){
+            text = packet.data
+            var parser = new DOMParser();
+            doc = parser.parseFromString(text, 'text/xml');
+            var user_id = this._textToXML(packet.data).attributes[2].value
+
+            if (this._textToXML(packet.data).attributes[2].value == connection.username.gsub("@","!")+'@li345-119'){
+                if (doc.activeElement.childNodes[0].children[1] == undefined){
+                    document.getElementsByClassName("vcard").first().classList.remove("jive-login-hidden")
+                }
+            }else{
+                if (doc.activeElement.childNodes[0].children[1] != undefined){
+                    var company_address = doc.activeElement.childNodes[0].children[0].innerHTML
+                    var company_name = doc.activeElement.childNodes[0].children[1].innerHTML
+                    var user_name = doc.activeElement.childNodes[0].children[2].innerHTML
+                    var service_type = doc.activeElement.childNodes[0].children[3].innerHTML
+                    var para = document.createElement("td");
+                    para.innerHTML = para.innerHTML+"<p>Company Name:"+company_name+"</p><p>Company Address:"+company_address+"</p><p>User Name:"+user_name+"</p><p>Service Type:"+service_type+"</p>"
+            
+                    if (document.getElementsBySelector("#jive-tab-"+user_id+"-toppane table tbody tr td").size() == 2){
+                        document.getElementsBySelector("#jive-tab-"+user_id+"-toppane table tbody tr")[0].appendChild(para);
+                    }
+                }    
+            }    
+        }
+
     },
 
     send: function(xml) 

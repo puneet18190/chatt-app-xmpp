@@ -97,8 +97,16 @@
                     <!-- <p><label for="confirmpassword" class="jive_red">Confirm Password:</label>
                         <input class="error" type="password" id="confirmpassword"
                                name="confirmpassword" tabindex="13"/></p> -->
-
-                    
+                                <br class="clearer"/>
+                    <input type="checkbox" id="myCheck" onclick="show_info();" style="width:5px"><span style="position: absolute; top: 140px; margin-left: 8px;">Travel Trade</span>
+                    <div id="company_info" style="display:none">
+                        <p><label for="name" accesskey="2">Company Name:</label>
+                            <input name="name" type="text" id="company_name" tabindex="10"/></p>
+                        <p><label for="name" accesskey="2">Address:</label>
+                            <input name="name" type="text" id="address" tabindex="10"/></p>
+                        <p><label for="name" accesskey="2">Service:</label>
+                            <input name="name" type="text" id="service" tabindex="10"/></p>
+                    </div>
                     <br class="clearer"/>
                     <p id="btn-signup-account" class="btn-create-account" style="height:70px;left:0"><a id="signup-account" href="#signupAccount">Signup Account</a></p>
                     <p class="btn-create-account" style="height:70px;left:20px"><a href="/chat/index.html">Login</a></p>
@@ -113,6 +121,16 @@
         <!-- End of jive_sw__login-container -->
     </div>
     <!-- End of jive_sw_container -->
+
+    <script>
+    function show_info(){
+        if(document.getElementById('myCheck').checked == true){
+            document.getElementById('company_info').style.display = "block"
+        }else{
+            document.getElementById('company_info').style.display = "none"
+        }
+    }
+    </script>
 
 </body>
 </html>

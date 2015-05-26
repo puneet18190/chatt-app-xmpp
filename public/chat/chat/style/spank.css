@@ -257,7 +257,7 @@ ul#jive-roster span.group-label,
 div.jive-muc-occupants span.group-label {  /* Collapsible Group Label */
 	background:#F6F6F6 url(../images/sparkweb-black/bg_grouplabel.gif) repeat-x scroll left top;
 	cursor:pointer;
-	display:block;
+	display:none;
 	margin:0px 0px 2px;
 	padding:2px 0px 3px 7px;
 	}

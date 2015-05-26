@@ -1,6 +1,7 @@
 require 'xmpp4r'
 require 'xmpp4r/client'
 require 'xmpp4r/roster'
+require 'xmpp4r/vcard/helper/vcard'
 
 class XmppClient
   include Jabber
@@ -72,6 +73,7 @@ class XmppClient
   
   def subscribe(to, domain = 'li345-119/li345-119')
     @client.send(Presence.new.set_type(:subscribe).set_to("#{to}@#{domain}"))
+    # @client.send(Presence.new.set_type(:subscribed).set_to("#{to}@#{domain}"))
   end
 
   def activate_callbacks
@@ -125,4 +127,18 @@ class XmppClient
   def close
     @client.close
   end
+
+  def send_vcard(fields)
+    vcard_helper = Vcard::Helper.new(@client)
+    fields.each do  |info|
+      vcard["sds"] = "ds"
+    end
+    vcard_helper.set(vcard)
+  end
+
+  def get_vcard()
+    vcard_helper = Vcard::Helper.new(@client)
+    vcard = vcard_helper.get
+    return vcard
+  end  
 end

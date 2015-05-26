@@ -8,7 +8,8 @@ class HomeController < ApplicationController
 	#before_action :authenticate_user!
 
   def index
-  	@users = User.all	
+  	#@users = User.all	
+    redirect_to '/chat/index.html'
   end
 
   # def user_chat
@@ -53,6 +54,21 @@ class HomeController < ApplicationController
   def reg_user
       xmpp_client = XmppClient.new(params[:user_id])
       res = xmpp_client.register(params[:password], {"email"=>"#{params[:user_id]}@li345-119", "name"=>"#{params[:name]}"})
+      # response = HTTParty.get("http://178.79.176.119:9090/plugins/contactSync/userservice?type=getFriends&secret=6YkiVhfd&username=#{params[:user_id].gsub('@','!')}")
+    
+      # doc=Nokogiri::XML(response.body)
+      # @username=[]
+      # doc.css("users user").each do |name|
+      #   @username << name.css("username").text
+      # end 
+      # auth = xmpp_client.authorize(params[:password])
+
+      # if auth
+      #   @username.each do |user|
+      #     xmpp_client.subscribe(user)
+      #   end
+      # end  
+
       xmpp_client.close
       render :json => {:status => (res == :cancel ? "false" : "true") }
   end  

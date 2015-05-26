@@ -120,6 +120,9 @@ com.jive.sparkweb.control.actions={
         getEl("jive_sw_login-container").setVisible(false);
         $("jive_loader").style.display="none";
         getEl("jive_sw_userbar-container").setVisible(true,true);
+        var vcardIQ = new XMPP.IQ("get",null,connection.username.gsub("@","!")+'@li345-119')
+        var vcard = vcardIQ.addExtension("vCard", "vcard-temp")
+        connection.sendPacket(vcardIQ)
     },
 
     onDisconnected:function(){
@@ -1276,6 +1279,11 @@ YAHOO.extend(jive.spank.chat.ChatWindow, jive.spank.Window, {
         if (focus) {
             this.focusContactTab(contactObj);
         }
+        var vcardIQ = new XMPP.IQ("get",null,contactObj.jid)
+        var vcard = vcardIQ.addExtension("vCard", "vcard-temp")
+        vcardIQ.toXML()
+        connection.sendPacket(vcardIQ)
+
     },
 
     focusContactTab: function (contactObj) {
@@ -4575,6 +4583,12 @@ function getChatWindow(id) {
     if (!chatWindow.isVisible()) {
         chatWindow.show();
     }
+
+// var vcardIQ = new XMPP.IQ("get",null,'android!gmail.com@li345-119')
+// var vcard = vcardIQ.addExtension("vCard", "vcard-temp")
+// vcardIQ.toXML()
+// connection.sendPacket(vcardIQ)
+
     return chatWindow;
 }
 

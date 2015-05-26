@@ -12,7 +12,8 @@ Rails.application.routes.draw do
    match '/user_chat',   to: 'home#user_chat',   via: 'get'
    match '/reg_user',   to: 'home#reg_user',   via: 'get'
    match '/get_user_list',   to: 'home#get_user_list',   via: 'get'
-   devise_for :users, :controllers => { registrations: 'registrations' }
+   devise_for :users, :controllers => { registrations: 'registrations' },
+                      :controllers => { confirmations: "confirmations" }
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
